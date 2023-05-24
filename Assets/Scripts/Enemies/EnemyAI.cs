@@ -17,7 +17,7 @@ public abstract class EnemyAI : MonoBehaviour
     NavMeshAgent navMeshAgent;
     
     float distanceToTarget = Mathf.Infinity;
-    protected PlayerController player;
+    protected PlayerMovement player;
     protected Transform target;
     
     bool attacking = false;
@@ -31,7 +31,7 @@ public abstract class EnemyAI : MonoBehaviour
     public virtual void Start()
     {
         playerRigidbody  = GetComponent<Rigidbody>();
-        player           = FindObjectOfType<PlayerController>();
+        player           = FindObjectOfType<PlayerMovement>();
         target           = player.transform;
     }
 
@@ -67,6 +67,7 @@ public abstract class EnemyAI : MonoBehaviour
         if (attacking) return;
         
         StartCoroutine(Knockback());
+        Debug.Log("knockback is called");
     }
 
     /*private void OnCollisionEnter(Collision collision)
