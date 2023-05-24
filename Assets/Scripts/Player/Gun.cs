@@ -1,5 +1,7 @@
+#region
 using System.Collections;
 using UnityEngine;
+#endregion
 
 public class Gun : MonoBehaviour
 {
@@ -35,18 +37,16 @@ public class Gun : MonoBehaviour
     {
       StartCoroutine(Shoot());
     }
-  }
-
+    
   IEnumerator Shoot()
   {
     magazine--;
     RaycastHit hit;
     if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
-    {
-      Debug.Log("I hit this thing" + hit.transform.name);
-    }
+
     allowFire = false;
     yield return new WaitForSeconds(FireRate/60);
     allowFire = true;
-  }
+    }
+    
 }
