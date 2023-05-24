@@ -5,7 +5,7 @@ using UnityEngine;
 public class ZoneBehaviour : MonoBehaviour
 {
     [SerializeField] bool inTheZone = false;
-    PlayerController playerScript;
+    PlayerMovement playerScript;
 
     void Start()
     {

@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     [SerializeField] float jumpUpSpeed = 9.2f;
     [SerializeField] float dashSpeed = 6f;
+    [SerializeField] float airControl = 0.3f;
 
     //Wall
     [Header("Walls")]
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, ReadOnly] bool running;
     [SerializeField, ReadOnly] bool jump;
     [SerializeField, ReadOnly] bool crouched;
-    [SerializeField, ReadOnly] bool grounded;
+    [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
     Collider ground;
     Vector3 groundNormal = Vector3.up;
@@ -123,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
             case Mode.Flying:
                 camCon.SetTilt(0);
-                AirMove(dir, airSpeed, airAccel);
+                AirMove(dir, airSpeed, airAccel, airControl);
                 break;
 
             default:
@@ -162,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
                     return;
 
                 EnterWalking();
-                grounded     = true;
+                IsGrounded     = true;
                 groundNormal = contact.normal;
                 ground       = contact.otherCollider;
                 foundGround  = true;
@@ -172,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
             if (foundWall || !(angle < 120f) || contact.otherCollider.CompareTag("NoWallrun") ||
                 contact.otherCollider.CompareTag("Player")) continue;
 
-            grounded     = true;
+            IsGrounded     = true;
             groundNormal = contact.normal;
             ground       = contact.otherCollider;
             EnterWallrun();
@@ -180,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (!foundGround && VectorToGround().sqrMagnitude > 0.2f * 0.2f)
-            grounded = false;
+            IsGrounded = false;
     }
 
 
@@ -210,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
 
     void EnterFlying(bool wishFly = false)
     {
-        grounded = false;
+        IsGrounded = false;
         if (mode == Mode.Wallrunning && VectorToWall().magnitude < wallStickDistance && !wishFly) return;
 
         if (mode != Mode.Flying)
@@ -272,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void AirMove(Vector3 wishDir, float maxSpeed, float acceleration)
+    void AirMove(Vector3 wishDir, float maxSpeed, float acceleration, float airControl)
     {
         if (jump && !crouched)
         {
@@ -285,18 +286,33 @@ public class PlayerMovement : MonoBehaviour
 
         var velocity = rb.velocity;
 
-        float projVel =
-            Vector3.Dot(new (velocity.x, 0f, velocity.z),
-                        wishDir); // Vector projection of Current velocity onto accelDir.
+        // Calculate the current speed in the horizontal plane (excluding vertical velocity)
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+        float   currentSpeed       = horizontalVelocity.magnitude;
 
-        float accelVel = acceleration * Time.deltaTime; // Accelerated velocity in direction of movement
+        // Calculate the target speed based on wishDir and maxSpeed
+        float targetSpeed = maxSpeed * wishDir.magnitude;
 
-        // If necessary, truncate the accelerated velocity so the vector projection does not exceed max_velocity
-        if (projVel + accelVel > maxSpeed)
-            accelVel = Mathf.Max(0f, maxSpeed - projVel);
+        // Calculate the speed difference
+        float speedDiff = targetSpeed - currentSpeed;
 
-        rb.AddForce(wishDir.normalized * accelVel, ForceMode.VelocityChange);
+        // Calculate the acceleration needed to reach the target speed
+        float accelNeeded = speedDiff / Time.deltaTime;
+
+        // Clamp the acceleration to the given acceleration value
+        float clampedAccel = Mathf.Clamp(accelNeeded, -acceleration, acceleration);
+
+        // Apply the acceleration to the horizontal velocity
+        Vector3 accelerationVector = wishDir.normalized * clampedAccel;
+        rb.AddForce(accelerationVector, ForceMode.Acceleration);
+
+        // Apply air control to modify the direction of movement
+        float   airControlFactor      = airControl * Time.deltaTime;
+        Vector3 newHorizontalVelocity = horizontalVelocity + (accelerationVector * airControlFactor);
+        newHorizontalVelocity = Vector3.ClampMagnitude(newHorizontalVelocity, maxSpeed);
+        rb.velocity           = new Vector3(newHorizontalVelocity.x, velocity.y, newHorizontalVelocity.z);
     }
+
 
     void Wallrun(Vector3 wishDir, float maxSpeed, float climbSpeed, float acceleration)
     {
@@ -348,7 +364,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(distance * wallStickiness, ForceMode.Acceleration);
         }
 
-        if (!grounded)
+        if (!IsGrounded)
         {
             wallStickTimer = 0.2f;
             EnterFlying();

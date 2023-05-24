@@ -1,14 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Essentials;
+using TMPro;
 using UnityEngine;
 
 public class GunAnimationEvents : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+    [Header("Serialized References")]
     [SerializeField] GameObject throwingGunPrefab;
-  public void ThrowGun()
+
+    GameObject thrownGuns;
+
+    Magazine mag;
+
+    void Start()
     {
-        Instantiate(throwingGunPrefab, transform.position, transform.rotation);
+        mag = FindObjectOfType<Magazine>();
+        thrownGuns = new GameObject("Thrown Guns");
+    }
+
+    public void ThrowGun()
+    {
+        GameObject thrownGun = Instantiate(throwingGunPrefab, transform.position, transform.rotation);
+        thrownGun.transform.parent = thrownGuns.transform;
     }
 }
