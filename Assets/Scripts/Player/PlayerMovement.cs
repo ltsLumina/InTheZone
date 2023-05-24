@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     [SerializeField] float jumpUpSpeed = 9.2f;
     [SerializeField] float dashSpeed = 6f;
-    [SerializeField] float airControl = 0.3f;
 
     //Wall
     [Header("Walls")]
@@ -34,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float wallStickDistance = 1f;
     [SerializeField] float wallFloorBarrier = 40f;
     [SerializeField] float wallBanTime = 4f;
+
     Vector3 bannedGroundNormal;
 
     //Cooldowns
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
             case Mode.Flying:
                 camCon.SetTilt(0);
-                AirMove(dir, airSpeed, airAccel, airControl);
+                AirMove(dir, airSpeed, airAccel);
                 break;
 
             default:
@@ -273,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void AirMove(Vector3 wishDir, float maxSpeed, float acceleration, float airControl)
+    void AirMove(Vector3 wishDir, float maxSpeed, float acceleration)
     {
         if (jump && !crouched)
         {
@@ -286,31 +286,17 @@ public class PlayerMovement : MonoBehaviour
 
         var velocity = rb.velocity;
 
-        // Calculate the current speed in the horizontal plane (excluding vertical velocity)
-        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
-        float   currentSpeed       = horizontalVelocity.magnitude;
+        float projVel =
+            Vector3.Dot(new (velocity.x, 0f, velocity.z),
+                        wishDir); // Vector projection of Current velocity onto accelDir.
 
-        // Calculate the target speed based on wishDir and maxSpeed
-        float targetSpeed = maxSpeed * wishDir.magnitude;
+        float accelVel = acceleration * Time.deltaTime; // Accelerated velocity in direction of movement
 
-        // Calculate the speed difference
-        float speedDiff = targetSpeed - currentSpeed;
+        // If necessary, truncate the accelerated velocity so the vector projection does not exceed max_velocity
+        if (projVel + accelVel > maxSpeed)
+            accelVel = Mathf.Max(0f, maxSpeed - projVel);
 
-        // Calculate the acceleration needed to reach the target speed
-        float accelNeeded = speedDiff / Time.deltaTime;
-
-        // Clamp the acceleration to the given acceleration value
-        float clampedAccel = Mathf.Clamp(accelNeeded, -acceleration, acceleration);
-
-        // Apply the acceleration to the horizontal velocity
-        Vector3 accelerationVector = wishDir.normalized * clampedAccel;
-        rb.AddForce(accelerationVector, ForceMode.Acceleration);
-
-        // Apply air control to modify the direction of movement
-        float   airControlFactor      = airControl * Time.deltaTime;
-        Vector3 newHorizontalVelocity = horizontalVelocity + (accelerationVector * airControlFactor);
-        newHorizontalVelocity = Vector3.ClampMagnitude(newHorizontalVelocity, maxSpeed);
-        rb.velocity           = new Vector3(newHorizontalVelocity.x, velocity.y, newHorizontalVelocity.z);
+        rb.AddForce(wishDir.normalized * accelVel, ForceMode.VelocityChange);
     }
 
 
