@@ -21,9 +21,9 @@ public class PickupSpawner : MonoBehaviour
 
     void SpawnPickup()
     {
+        //Randomize the spawning position and then instantiate the pickup on the random spot
         spawnPosition = new(Random.Range(minInclusiveX, maxExclusiveX), transform.position.y, Random.Range(minInclusiveZ, maxExclusiveZ));
         Instantiate(pickUp, spawnPosition, Quaternion.identity);
         pickUp.transform.parent = gameObject.transform;
-        Gizmos.DrawCube(spawnPosition, spawnPosition);
     }
 }
