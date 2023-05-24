@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037525338646891567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.4, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,10 +44,10 @@ GameObject:
   - component: {fileID: 7565802639046921999}
   - component: {fileID: 3155714673152822578}
   - component: {fileID: 8122067743774088452}
-  - component: {fileID: 771026063286372753}
+  - component: {fileID: 6131830862391027668}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,8 +66,9 @@ Transform:
   m_Children:
   - {fileID: 4539850657594279421}
   - {fileID: 7922841803020807582}
+  - {fileID: 8946796630649610116}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3833533853453120697
 MonoBehaviour:
@@ -81,14 +82,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b80e93c1be3b14ebe8bde99afc4539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  gravity: -9.82
-  jumpHeight: 3
-  groundDistance: 0.4
-  groundCheck: {fileID: 4539850657594279421}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
+  groundSpeed: 10
+  runSpeed: 15
+  groundAccel: 20
+  airSpeed: 5
+  airAccel: 25
+  jumpUpSpeed: 9.82
+  dashSpeed: 10
+  wallSpeed: 10
+  wallClimbSpeed: 4
+  wallAccel: 20
+  wallRunTime: 1
+  wallStickiness: 20
+  wallStickDistance: 1
+  wallFloorBarrier: 40
+  wallBanTime: 4
+  canJump: 1
+  canDJump: 1
+  wallBan: 0
+  wrTimer: 0
+  wallStickTimer: 0
+  running: 0
+  jump: 0
+  crouched: 0
+  grounded: 0
 --- !u!33 &7565802639046921999
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -162,32 +179,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!143 &771026063286372753
-CharacterController:
+--- !u!54 &6131830862391027668
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3891201901391547850}
-  m_Material: {fileID: 0}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &3968235929902843941
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3968235929902843941}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -337,4 +355,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f530d6cc402db8c43a212ca37f2ea071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 500
+  sensX: 1
+  sensY: 1
+  baseFov: 100
+  maxFov: 130
+  wallRunTilt: 25
+  mainCamera: {fileID: 8668138247427646463}
+  weaponCamera: {fileID: 8668138247427646463}
+--- !u!1 &4383737173960871719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8946796630649610116}
+  - component: {fileID: 3071016513966143164}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8946796630649610116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4383737173960871719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3526251075276833570}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3071016513966143164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4383737173960871719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d9c1c6cb0143d4685c7faefd8da7eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FPCamera: {fileID: 8668138247427646463}
+  range: 100
+  damage: 35
