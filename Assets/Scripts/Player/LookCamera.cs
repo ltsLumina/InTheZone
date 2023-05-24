@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LookCamera : MonoBehaviour
 {
-// Congfigurable parameteres
+    // Congfigurable parameteres
     [SerializeField] float mouseSensitivity = 1500f;
 
     // Private variables

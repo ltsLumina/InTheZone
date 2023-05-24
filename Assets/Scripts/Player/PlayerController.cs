@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     public bool cursorLock;
     public static bool gameIsPaused;
     Transform mainCamera;
-    LookCamera myCamera;
     Vector2 movementInput;
 
     bool isDead;
@@ -76,11 +75,13 @@ public class PlayerController : MonoBehaviour
     readonly static int Dashing = Animator.StringToHash("isDashing");
     readonly static int Grounded = Animator.StringToHash("isGrounded");
 
-    void Awake()
+    void Start()
     {
+        mainCamera = FindObjectOfType<Camera>().transform;
+
         if (cursorLock) Cursor.lockState = CursorLockMode.Locked;
         MyRigidbody = GetComponent<Rigidbody>();
-        if (myCamera != null) mainCamera = myCamera.transform;
+        if (mainCamera != null) mainCamera = Camera.main.transform;
         characterAnimator = GetComponentInChildren<Animator>();
     }
 
@@ -228,7 +229,7 @@ public class PlayerController : MonoBehaviour
         MyRigidbody.AddForce(jumpForce * Vector3.up, ForceMode.VelocityChange);
 
         //Trigger squash and stretch animation and particle effect
-        characterAnimator.SetTrigger("squashJump");
+        //characterAnimator.SetTrigger("squashJump");
     }
 
     IEnumerator JumpBufferRoutine()
