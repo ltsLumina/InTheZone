@@ -5,7 +5,6 @@ using UnityEngine;
 public class ZoneSpawnManager : MonoBehaviour
 {
     [Header("Zone Variables")]
-    [SerializeField] bool inTheZone = false;
     [SerializeField] GameObject zone;
     [SerializeField] GameObject[] zoneSpawnPos;
     [SerializeField] float zoneDuration = 60f;
