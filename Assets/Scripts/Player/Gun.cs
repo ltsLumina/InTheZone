@@ -35,44 +35,4 @@ public class Gun : MonoBehaviour
         // Set the current magazine to the maximum size.
         currentMagazine = maxMagazineSize;
     }
-
-    void Update()
-    {
-        // "Fire1" == Left mouse button.
-        if (Input.GetButtonDown("Fire1") && currentMagazine > 0 && allowFire)
-        {
-            Shoot();
-        }
-    }
-
-    void Shoot()
-    {
-        currentMagazine--;
-
-        // Shoots
-        StartCoroutine(Essentials.Sequencing.SequenceActions(() =>
-        {
-            allowFire = false;
-            Debug.Log("allowFire = false");
-
-            // Raycast to a distance of 100 units and debug the name of the object hit.
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, range))
-            {
-                Debug.Log($"Hit: {hit.transform.name}");
-
-                if (hit.collider != null)
-                {
-                    // Do on-hit logic, such as damaging the enemy etc.
-                    // Get the health component from the object hit.
-                    //Health target = hit.transform.GetComponent<Health>();
-                }
-            }
-
-        }, FireRate, () =>
-        {
-            // Shoot has finished, perform clean up actions.
-            allowFire = true;
-            Debug.Log("allowFire = true");
-        }));
-    }
 }
