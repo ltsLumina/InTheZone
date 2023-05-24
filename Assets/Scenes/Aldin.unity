@@ -632,6 +632,10 @@ MonoBehaviour:
   time: 1
   repeatRate: 1
   pickUp: {fileID: 629712422523410384, guid: 60285cf5ff01dfd4aa7e9e8b491f1001, type: 3}
+  minInclusiveX: 0
+  maxExclusiveX: 10
+  minInclusiveZ: 0
+  maxExclusiveZ: 10
 --- !u!4 &1173514654
 Transform:
   m_ObjectHideFlags: 0
