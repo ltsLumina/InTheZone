@@ -1,13 +1,15 @@
 #region
 using System;
+using UnityEditor;
 using UnityEngine;
 using static Interfaces;
 #endregion
 
 public class Health : MonoBehaviour, IDamageable
 {
+    [Header("Health Options")]
     [SerializeField] int maxHealth;
-    [SerializeField] int currentHealth;
+    [SerializeField, Range(0,100)] int currentHealth;
 
     public int MaxHealth
     {
@@ -21,6 +23,7 @@ public class Health : MonoBehaviour, IDamageable
         set
         {
             currentHealth = value;
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             if (CurrentHealth <= 0) Death();
         }
     }

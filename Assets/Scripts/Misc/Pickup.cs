@@ -13,10 +13,10 @@ public class Pickup : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
-        gun.FireRate *= 1.05f;
+        gun.ShootDelay *= 1.05f;
         float round = Mathf.Round(magazine.MaxMagazineSize * 1.25f);
         magazine.MaxMagazineSize = round;
-        Debug.Log($"FireRate = {gun.FireRate}MagazineSize = {magazine.MaxMagazineSize}");
+        Debug.Log($"ShootDelay = {gun.ShootDelay}MagazineSize = {magazine.MaxMagazineSize}");
         Destroy(gameObject);
     }
 }

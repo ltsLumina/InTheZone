@@ -9,7 +9,7 @@ public class Gun : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] float range = 100f;
-    [SerializeField] float fireRate;
+    [SerializeField] float shootDelay;
     [SerializeField] int damage = 35;
 
     [Header("Read-Only Fields")]
@@ -19,38 +19,45 @@ public class Gun : MonoBehaviour
     Magazine magazine;
     Camera playerCam;
 
-    public float FireRate
+    // Cached Hashes
+    readonly static int OnShoot = Animator.StringToHash("onShoot");
+
+    public Animator GunAnim { get; private set; }
+
+    public float ShootDelay
     {
-        get => fireRate;
-        set => fireRate = value;
+        get => shootDelay;
+        set => shootDelay = value;
     }
 
     void Start()
     {
         canFire  = true;
-        magazine = GetComponent<Magazine>();
+
+        magazine  = GetComponent<Magazine>();
+        GunAnim   = FindObjectOfType<GunAnimationEvents>().GetComponent<Animator>();
+        playerCam = FindObjectOfType<Camera>();
 
         // Set the current magazine to the maximum size.
         magazine.CurrentMagSize = magazine.MaxMagazineSize;
-
-        // Get the camera component from the child of this object.
-        playerCam = transform.parent.GetChild(0).GetComponent<Camera>();
     }
 
     void Update()
     {
         // "Fire1" == Left mouse button.
         if (Input.GetButton("Fire1") && magazine.CurrentMagSize > 0 && canFire) Shoot();
+
+        if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
 
     void Shoot()
     {
-        magazine.CurrentMagSize--;
-
-        // Shoots
+        // Shoot the gun.
         StartCoroutine(Sequencing.SequenceActions(() =>
         {
             canFire = false;
+            magazine.CurrentMagSize--;
+            GunAnim.SetTrigger(OnShoot);
 
             // Raycast to a distance of 100 units and debug the name of the object hit.
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, range))
@@ -63,11 +70,16 @@ public class Gun : MonoBehaviour
                     component.TakeDamage(damage);
             }
 
-            // FireRate == the time between each shot.
-        }, FireRate, () =>
+            // ShootDelay == the time between each shot.
+        }, ShootDelay, () =>
         {
             // Shoot has finished, perform clean up actions.
             canFire = true;
         }));
+    }
+
+    void Reload()
+    {
+        magazine.ReloadMagazine();
     }
 }

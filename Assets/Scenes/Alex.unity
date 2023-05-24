@@ -123,13 +123,13 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!43 &35050958
+--- !u!43 &263222010
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterVolume--588698
+  m_Name: WaterVolume--1460786
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -543,6 +543,7 @@ Transform:
   - {fileID: 1695834055}
   - {fileID: 1938776283}
   - {fileID: 618536492}
+  - {fileID: 2124159724}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -665,33 +666,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 767236639}
     m_Modifications:
-    - target: {fileID: 1058417266032372642, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4391805772191194565, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
       propertyPath: m_Name
       value: WaterVolume
       objectReference: {fileID: 0}
-    - target: {fileID: 4391805772191194565, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
-      propertyPath: m_TagString
-      value: NoWallrun
-      objectReference: {fileID: 0}
     - target: {fileID: 4391805772191194566, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 35050958}
+      objectReference: {fileID: 263222010}
     - target: {fileID: 4391805772191194616, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
       propertyPath: m_RootOrder
       value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4391805772191194616, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4.323869
-      objectReference: {fileID: 0}
-    - target: {fileID: 4391805772191194616, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.44698
       objectReference: {fileID: 0}
     - target: {fileID: 4391805772191194616, guid: b4d180f8972115d4ba8a49c33fe67d94, type: 3}
       propertyPath: m_LocalPosition.x
@@ -850,13 +835,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124159719}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 5.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 767236639}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6650149497170274777
 PrefabInstance:
@@ -866,6 +851,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3071016513966143164, guid: 9a8447c9a56d0bd41ae36c5d001cfc45, type: 3}
+      propertyPath: damage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3526251075276833570, guid: 9a8447c9a56d0bd41ae36c5d001cfc45, type: 3}
       propertyPath: m_RootOrder
       value: 1

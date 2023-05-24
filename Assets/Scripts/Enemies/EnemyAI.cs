@@ -7,14 +7,14 @@ public abstract class EnemyAI : MonoBehaviour
 {
     float distanceToTarget = Mathf.Infinity;
 
-    protected PlayerController player;
+    protected PlayerMovement player;
     
     protected Transform target;
     
     // Start is called before the first frame update
     public virtual void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerMovement>();
         target = player.transform;
     }
 
