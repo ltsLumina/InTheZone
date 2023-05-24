@@ -8,6 +8,8 @@ public class Zone : MonoBehaviour
 
     private CapsuleCollider zoneCollider;
 
+    private PlayerController playerController;
+
     void Start()
     {
         zoneCollider = GetComponent<CapsuleCollider>();
@@ -25,6 +27,7 @@ public class Zone : MonoBehaviour
         {
             inTheZone = true;
             
+
         }
     }
 }
