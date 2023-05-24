@@ -37,16 +37,16 @@ public class Gun : MonoBehaviour
     {
       StartCoroutine(Shoot());
     }
-    
-  IEnumerator Shoot()
-  {
-    magazine--;
-    RaycastHit hit;
-    if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
 
-    allowFire = false;
-    yield return new WaitForSeconds(FireRate/60);
-    allowFire = true;
+    IEnumerator Shoot()
+    {
+      magazine--;
+      RaycastHit hit;
+      if (Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out hit, range))
+
+        allowFire = false;
+      yield return new WaitForSeconds(FireRate / 60);
+      allowFire = true;
     }
-    
+  }
 }
