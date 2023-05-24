@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public bool cursorLock;
     public static bool gameIsPaused;
     Transform mainCamera;
+    LookCamera myCamera;
     Vector2 movementInput;
 
     bool isDead;
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         if (cursorLock) Cursor.lockState = CursorLockMode.Locked;
         MyRigidbody = GetComponent<Rigidbody>();
-        if (Camera.main != null) mainCamera = Camera.main.transform;
+        if (myCamera != null) mainCamera = myCamera.transform;
         characterAnimator = GetComponentInChildren<Animator>();
     }
 
