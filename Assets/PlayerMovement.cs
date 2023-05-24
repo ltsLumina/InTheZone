@@ -1,4 +1,5 @@
 #region
+using System;
 using System.Collections;
 using UnityEngine;
 using static Essentials.Attributes;
@@ -124,6 +125,9 @@ public class PlayerMovement : MonoBehaviour
                 camCon.SetTilt(0);
                 AirMove(dir, airSpeed, airAccel);
                 break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         jump = false;
@@ -141,48 +145,44 @@ public class PlayerMovement : MonoBehaviour
     #region Collisions
     void OnCollisionStay(Collision collision)
     {
-        if (collision.contactCount > 0)
+        if (collision.contactCount <= 0)
+            return;
+
+        bool foundGround = false;
+        bool foundWall   = false;
+        bool walkingMode = mode == Mode.Walking;
+
+        foreach (ContactPoint contact in collision.contacts)
         {
-            float angle;
+            float angle = Vector3.Angle(contact.normal, Vector3.up);
 
-            foreach (ContactPoint contact in collision.contacts)
+            if (angle < wallFloorBarrier)
             {
-                angle = Vector3.Angle(contact.normal, Vector3.up);
-
-                if (angle < wallFloorBarrier)
-                {
-                    EnterWalking();
-                    grounded     = true;
-                    groundNormal = contact.normal;
-                    ground       = contact.otherCollider;
+                if (walkingMode)
                     return;
-                }
+
+                EnterWalking();
+                grounded     = true;
+                groundNormal = contact.normal;
+                ground       = contact.otherCollider;
+                foundGround  = true;
+                break;
             }
 
-            if (VectorToGround().magnitude > 0.2f) grounded = false;
+            if (foundWall || !(angle < 120f) || contact.otherCollider.CompareTag("NoWallrun") ||
+                contact.otherCollider.CompareTag("Player")) continue;
 
-            if (grounded) return;
-
-            {
-                foreach (ContactPoint contact in collision.contacts)
-                {
-                    if (contact.otherCollider.CompareTag("NoWallrun") || contact.otherCollider.CompareTag("Player") ||
-                        mode == Mode.Walking) continue;
-
-                    angle = Vector3.Angle(contact.normal, Vector3.up);
-
-                    if (angle > wallFloorBarrier && angle < 120f)
-                    {
-                        grounded     = true;
-                        groundNormal = contact.normal;
-                        ground       = contact.otherCollider;
-                        EnterWallrun();
-                        return;
-                    }
-                }
-            }
+            grounded     = true;
+            groundNormal = contact.normal;
+            ground       = contact.otherCollider;
+            EnterWallrun();
+            foundWall = true;
         }
+
+        if (!foundGround && VectorToGround().sqrMagnitude > 0.2f * 0.2f)
+            grounded = false;
     }
+
 
     void OnCollisionExit(Collision collision)
     {
