@@ -1,24 +1,30 @@
 ﻿#region
+using System;
+using Essentials;
+using TMPro;
 using UnityEngine;
 #endregion
 
 public class Magazine : MonoBehaviour
 {
-    // Cached Hashes
-    readonly static int OnReload = Animator.StringToHash("onReload");
-    [SerializeField] float maxMagSize = 18;
+    [Header("Magazine Options")]
+    [SerializeField] float maxMagazineSize = 18;
     [SerializeField] float currentMagCount;
 
     // Cached References
     Gun gun;
+    TextMeshPro ammoText;
+
+    // Cached Hashes
+    readonly static int DoReload = Animator.StringToHash("doReload");
 
     public float MaxMagazineSize
     {
-        get => maxMagSize;
-        set => maxMagSize = value;
+        get => maxMagazineSize;
+        set => maxMagazineSize = value;
     }
 
-    public float CurrentMagSize
+    public float CurrentMagCount
     {
         get => currentMagCount;
         set
@@ -32,15 +38,39 @@ public class Magazine : MonoBehaviour
 
     void Start()
     {
-        gun = GetComponent<Gun>();
+        gun      = GetComponent<Gun>();
+        ammoText = GetComponentInChildren<TextMeshPro>();
+
+        UpdateAmmoText();
 
         Debug.Assert(currentMagCount < 0 == false,
-                     "CurrentMagSize is less than 0! \n An error has occured somewhere!");
+                     "CurrentMagCount is less than 0! \n An error has occured somewhere!");
     }
 
     public void ReloadMagazine()
     {
-        gun.GunAnim.SetTrigger(OnReload);
-        CurrentMagSize = MaxMagazineSize;
+        if (Reloading()) return;
+
+        gun.GunAnim.SetTrigger(DoReload);
+
+        // awful way of doing this but it works :))
+        // -william hälsar.
+        UpdateAmmoText();
+        StartCoroutine(Sequencing.SequenceActions(UpdateAmmoText, 0.75f, () =>
+        {
+            CurrentMagCount = MaxMagazineSize;
+            UpdateAmmoText();
+        }));
+    }
+
+    public void UpdateAmmoText()
+    {
+        ammoText.text = currentMagCount.ToString();
+    }
+
+    public bool Reloading()
+    {
+        // return true if the gun animation is still playing.
+        return gun.GunAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
     }
 }
