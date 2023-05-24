@@ -13,9 +13,9 @@ public class Pickup : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player")) { return;}
         gun.FireRate *= 1.05f;
-        float round = Mathf.Round(gun.Magazine * 1.25f);
-        gun.Magazine = round;
-        Debug.Log($"FireRate = {gun.FireRate}Magazine = {gun.Magazine}");
+        float round = Mathf.Round(gun.MaxMagazineSize * 1.25f);
+        gun.MaxMagazineSize = round;
+        Debug.Log($"FireRate = {gun.FireRate}MagazineSize = {gun.MaxMagazineSize}");
         Destroy(gameObject);
     }
 }
