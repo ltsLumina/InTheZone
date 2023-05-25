@@ -203,6 +203,37 @@ Transform:
   m_Father: {fileID: 3526251075276833570}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3767979454963127367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2423420065373467090}
+  m_Layer: 7
+  m_Name: ADS Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2423420065373467090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767979454963127367}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1635, y: -0.111, z: -0.019}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4631074540541430616}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3891201901391547850
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +271,7 @@ Transform:
   - {fileID: 7922841803020807582}
   - {fileID: 4539850657594279421}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3833533853453120697
 MonoBehaviour:
@@ -406,6 +437,7 @@ GameObject:
   - component: {fileID: 7142031675636577792}
   - component: {fileID: 7131087343277178469}
   - component: {fileID: 182771266908761936}
+  - component: {fileID: 8102420000431792226}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -549,6 +581,7 @@ MonoBehaviour:
   sensitivity: {x: 1, y: 1}
   baseFov: 60
   maxFov: 80
+  currentFOV: 0
   wallRunTilt: 20
   mainCamera: {fileID: 8668138247427646463}
   weaponCamera: {fileID: 2824488600634967062}
@@ -566,9 +599,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bobbingSpeed: 12.5
   bobbingAmount: 0.075
-  sprintBobbingSpeed: 15
+  sprintBobbingSpeed: 14
   sprintBobbingAmount: 0.15
   enableSprintBobbing: 1
+--- !u!114 &8102420000431792226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968235929902843941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbb49067a9516c429814028252b62bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeWeapon: {fileID: 4892481463760267952}
+  defaultPosition: {fileID: 4631074540541430616}
+  adsPosition: {fileID: 2423420065373467090}
+  weaponPosition: {x: 0, y: 0, z: 0}
+  aimSpeed: 10
+  _defaultFOV: 60
+  zoomRatio: 0.5
+  fpsCam: {fileID: 7131087343277178469}
+--- !u!1 &4053965975183447915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9106193376543734995}
+  m_Layer: 7
+  m_Name: Barrel Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9106193376543734995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4053965975183447915}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04349, y: 0.01899, z: 0.00199}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4742167240164965309}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4383737173960871719
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +683,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4892481463760267952}
+  - {fileID: 4631074540541430616}
   m_Father: {fileID: 7922841803020807582}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -616,10 +700,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 100
-  shootDelay: 0.3
+  shootDelay: 0.5
   damage: 50
-  bulletForce: 15
+  bulletForce: 45
   bulletPrefab: {fileID: 6878013706252857393, guid: 22a8847dfdbb3634e8a57a250634eac7, type: 3}
+  barrelExit: {fileID: 0}
   canFire: 0
 --- !u!114 &7508397940759321041
 MonoBehaviour:
@@ -635,6 +720,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMagazineSize: 5
   currentMagCount: 5
+--- !u!1 &6277671361467501500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4631074540541430616}
+  m_Layer: 7
+  m_Name: Default Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4631074540541430616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277671361467501500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.138, y: -0.162, z: 0.358}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2423420065373467090}
+  - {fileID: 4892481463760267952}
+  m_Father: {fileID: 8946796630649610116}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6640527881049931978
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +970,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8946796630649610116}
+    m_TransformParent: {fileID: 4631074540541430616}
     m_Modifications:
     - target: {fileID: 302568055573208477, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_Name
@@ -888,31 +1006,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.33
+      value: -0.27739286
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.363
+      value: -0.0020786524
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9848078
+      value: 0.976296
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.17364825
+      value: -0.21643974
       objectReference: {fileID: 0}
     - target: {fileID: 7395384144536543465, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -932,6 +1050,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7245083097366262244, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3277720628022110737}
+    - targetCorrespondingSourceObject: {fileID: 7245083097366262244, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9106193376543734995}
     - targetCorrespondingSourceObject: {fileID: 9210005843258631322, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1048725506948311268}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4887066786551372383}
   - component: {fileID: 8694282630014729417}
   - component: {fileID: 4557873404391968656}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Clip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7764242439043453348}
   - component: {fileID: 818797219193425308}
   - component: {fileID: 2428915475416399606}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: -1980265831065049181}
   - component: {fileID: 5147135748827517546}
   - component: {fileID: 8759716875801182840}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Gun_RB
   m_TagString: DroppedGun
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 8747722728945530110}
   - component: {fileID: 7077191901189406550}
   - component: {fileID: 4182313967915056952}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GunBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

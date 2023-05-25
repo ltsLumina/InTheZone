@@ -1,5 +1,6 @@
 #region
 using UnityEngine;
+using static Essentials.Attributes;
 #endregion
 
 public class CameraController : MonoBehaviour
@@ -8,6 +9,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector2 sensitivity = new (1f, 1f);
     [SerializeField] float baseFov = 90f;
     [SerializeField] float maxFov = 140f;
+    [SerializeField, ReadOnly] float currentFOV;
     [SerializeField] float wallRunTilt = 15f;
 
     [Header("Cached References")]
@@ -18,7 +20,13 @@ public class CameraController : MonoBehaviour
     float curTilt;
     Vector2 currentLook;
     Vector2 sway = Vector2.zero;
-    float fov;
+
+    public float FOV
+    {
+        get => currentFOV;
+        set => currentFOV = value;
+    }
+
     Rigidbody rb;
 
     void Start()
@@ -34,10 +42,11 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         float addedFov = rb.velocity.magnitude - 3.44f;
-        fov = Mathf.Lerp(fov, baseFov + addedFov, 0.5f);
-        fov = Mathf.Clamp(fov, baseFov, maxFov);
-        mainCamera.fieldOfView = fov;
-        weaponCamera.fieldOfView = fov;
+        //FOV = Mathf.Lerp(FOV, baseFov + addedFov, 0.5f);
+        FOV = Mathf.Clamp(FOV, baseFov, maxFov);
+
+        mainCamera.fieldOfView = FOV;
+        weaponCamera.fieldOfView = FOV;
 
         currentLook = Vector2.Lerp(currentLook, currentLook + sway, 0.8f);
         curTilt = Mathf.LerpAngle(curTilt, wishTilt * wallRunTilt, 0.05f);
@@ -67,5 +76,6 @@ public class CameraController : MonoBehaviour
     public void SetSensitivity(Vector2 newSensitivity) { sensitivity = newSensitivity; }
 
     public void SetFov(float newFov) { baseFov = newFov; }
+    public void SetADSFov(float newFov) { FOV = newFov; }
     #endregion
 }
