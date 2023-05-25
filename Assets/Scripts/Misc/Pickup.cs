@@ -7,13 +7,15 @@ public class Pickup : MonoBehaviour
 
     void Start()
     {
+        gun = FindObjectOfType<Gun>();
         magazine = FindObjectOfType<Magazine>();
+        gun = FindObjectOfType<Gun>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
-        gun.ShootDelay *= 1.05f;
+        gun.ShootDelay *= 0.85f;
         float round = Mathf.Round(magazine.MaxMagazineSize * 1.25f);
         magazine.MaxMagazineSize = round;
         Debug.Log($"ShootDelay = {gun.ShootDelay}MagazineSize = {magazine.MaxMagazineSize}");
