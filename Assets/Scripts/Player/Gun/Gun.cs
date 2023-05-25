@@ -22,6 +22,7 @@ public class Gun : MonoBehaviour
     // Cached References.
     Magazine magazine;
     Camera playerCam;
+    Aim_Down_Sights aimDownSights;
     ParticleRunner particleRunner;
     GameObject bulletsFired;
     
@@ -57,6 +58,7 @@ public class Gun : MonoBehaviour
         magazine       = GetComponent<Magazine>();
         GunAnim        = FindObjectOfType<GunAnimationEvents>().GetComponent<Animator>();
         playerCam      = FindObjectOfType<Camera>();
+        aimDownSights  = FindObjectOfType<Aim_Down_Sights>();
         particleRunner = GetComponentInChildren<ParticleRunner>();
 
         // Create a header for the bullets fired.
@@ -72,7 +74,15 @@ public class Gun : MonoBehaviour
     void Update()
     {
         // "Fire1" == Left mouse button.
-        if (Input.GetButtonDown("Fire1") && magazine.CurrentMagCount > 0 && CanFire && !magazine.Reloading()) onShoot?.Invoke();
+        if (Input.GetButtonDown("Fire1") && magazine.CurrentMagCount > 0 && CanFire && !magazine.Reloading())
+        {
+            onShoot?.Invoke();
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            //aimDownSights.ADS();
+        }
 
         if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
@@ -84,8 +94,10 @@ public class Gun : MonoBehaviour
         {
             CanFire = false;
 
+            // Start the shoot animation.
             GunAnim.SetTrigger(DoShoot);
 
+            // Reduce ammo and update the text displayed on the gun.
             magazine.CurrentMagCount--;
             magazine.UpdateAmmoText();
 
@@ -117,7 +129,7 @@ public class Gun : MonoBehaviour
                     droppedGunRB.AddForce(playerCam.transform.forward * 6, ForceMode.Impulse);
                     droppedGunRB.AddForce(transform.up                * 8, ForceMode.Impulse);
                     droppedGunRB.AddTorque
-                    (new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20)),
+                    (new (Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20)),
                      ForceMode.Impulse);
                     break;
             }
