@@ -39,6 +39,11 @@ public class Gun : MonoBehaviour
         get => shootDelay;
         set => shootDelay = value;
     }
+    public bool CanFire 
+    { 
+        get => canFire; 
+        set => canFire = value; 
+    }
 
     void Start()
     {
@@ -58,7 +63,7 @@ public class Gun : MonoBehaviour
         bulletsFired = new GameObject("Bullets Fired");
 
         // Set the gun to be able to fire.
-        canFire = true;
+        CanFire = true;
 
         // Set the current magazine to the maximum size.
         magazine.CurrentMagCount = magazine.MaxMagazineSize;
@@ -67,7 +72,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
         // "Fire1" == Left mouse button.
-        if (Input.GetButtonDown("Fire1") && magazine.CurrentMagCount > 0 && canFire && !magazine.Reloading()) onShoot?.Invoke();
+        if (Input.GetButtonDown("Fire1") && magazine.CurrentMagCount > 0 && CanFire && !magazine.Reloading()) onShoot?.Invoke();
 
         if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
@@ -77,7 +82,7 @@ public class Gun : MonoBehaviour
         // Shoot the gun.
         StartCoroutine(Sequencing.SequenceActions(() =>
         {
-            canFire = false;
+            CanFire = false;
 
             GunAnim.SetTrigger(DoShoot);
 
@@ -118,7 +123,7 @@ public class Gun : MonoBehaviour
             }
 
             // ShootDelay == the time between each shot.
-        }, ShootDelay, () => canFire = true));
+        }, ShootDelay, () => CanFire = true));
     }
 
     void Reload()
