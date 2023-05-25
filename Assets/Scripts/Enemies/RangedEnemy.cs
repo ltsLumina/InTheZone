@@ -1,17 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RangedEnemy : EnemyAI
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float attackRange = 2f;
+
+    protected override void EngageTarget()
     {
+        base.EngageTarget();
+
+        float rangeCheck = navMeshAgent.stoppingDistance * attackRange;
+
+        if (distanceToTarget <= rangeCheck && distanceToTarget >= navMeshAgent.stoppingDistance + 0.5f)
+        {
+            AttackTargetAtRange();
+            Debug.Log("works? 2");
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void ChaseTarget()
+    {
+        float rangeCheck = navMeshAgent.stoppingDistance * attackRange;
+
+        if (distanceToTarget <= rangeCheck)
+        {
+            navMeshAgent.Stop();
+            return;
+        }
+        base.ChaseTarget();
+    }
+
+    void AttackTargetAtRange()
     {
         
     }
