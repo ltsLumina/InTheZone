@@ -7,6 +7,7 @@ public class Pickup : MonoBehaviour
 
     void Start()
     {
+        gun = FindObjectOfType<Gun>();
         magazine = FindObjectOfType<Magazine>();
     }
 

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: example-water-03
+  m_Name: example-water-03 1
   m_Shader: {fileID: -6465566751694194690, guid: 2cddf2ee6a74aca44af00f5a49bd2cf1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -72,18 +72,18 @@ Material:
     - Vector1_17E53C12: 0.77
     - Vector1_244B0600: 1
     - Vector1_34CF798A: 1.75
-    - Vector1_36E8227: 0.72
-    - Vector1_3D886DA1: 0.19
+    - Vector1_36E8227: 0.1
+    - Vector1_3D886DA1: 0.22
     - Vector1_46E42935: 1
     - Vector1_47683D42: 1
-    - Vector1_A0EAD698: 1.18
-    - Vector1_A6A0BC26: 1.08
-    - Vector1_B9F56378: 0.08
-    - Vector1_C360A163: 8.12
+    - Vector1_A0EAD698: 0.4
+    - Vector1_A6A0BC26: 100
+    - Vector1_B9F56378: 0.1
+    - Vector1_C360A163: 10
     - Vector1_DF445019: 1.5
     - Vector1_E03AB928: 0.05
     - Vector1_E5C51606: 1.62
-    - Vector1_F38B44AA: 0.5
+    - Vector1_F38B44AA: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,14 +104,14 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WaveFrequency: 10
-    - _WaveScale: 0.1
-    - _WaveSpeed: 1.75
+    - _WaveFrequency: 30
+    - _WaveScale: 0.005
+    - _WaveSpeed: 0.005
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_7D9A58EC: {r: 0.2224101, g: 0.8018868, b: 0.6940569, a: 0.29803923}
-    - Color_F01C36BF: {r: 0.16826269, g: 0.47153682, b: 0.6509434, a: 0.27058825}
+    - Color_7D9A58EC: {r: 0.969697, g: 1, b: 0, a: 1}
+    - Color_F01C36BF: {r: 0.9354838, g: 1, b: 0, a: 1}
     - Vector2_37B21477: {r: 0.6, g: 0.6, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
