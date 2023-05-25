@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     protected PlayerMovement player;
     protected Transform target;
     
-    bool attacking = false;
+    protected bool attacking = false;
 
     public virtual void Awake()
     {
