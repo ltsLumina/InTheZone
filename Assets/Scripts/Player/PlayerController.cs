@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Health")]
+    [Header("CurrentHealth")]
     [SerializeField] float currentHealth = 100f;
     [SerializeField] float maxHealth = 100f;
 

@@ -99,7 +99,6 @@ namespace Essentials
             // Wait for the delay time to pass.
             if (useRealtime) yield return new WaitForSecondsRealtime(delayInSeconds);
             else yield return new WaitForSeconds(delayInSeconds);
-
             {
                 // Run the onComplete action, if there is one.
                 onComplete?.Invoke();
