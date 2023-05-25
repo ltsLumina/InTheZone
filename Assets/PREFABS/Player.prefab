@@ -226,14 +226,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3767979454963127367}
-  m_LocalRotation: {x: 0, y: 0, z: -0.258819, w: 0.9659259}
-  m_LocalPosition: {x: -0.317, y: -0.36299992, z: 0.72}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1635, y: -0.111, z: -0.019}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4631074540541430616}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3891201901391547850
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +581,7 @@ MonoBehaviour:
   sensitivity: {x: 1, y: 1}
   baseFov: 60
   maxFov: 80
+  currentFOV: 0
   wallRunTilt: 20
   mainCamera: {fileID: 8668138247427646463}
   weaponCamera: {fileID: 2824488600634967062}
@@ -617,10 +618,41 @@ MonoBehaviour:
   defaultPosition: {fileID: 4631074540541430616}
   adsPosition: {fileID: 2423420065373467090}
   weaponPosition: {x: 0, y: 0, z: 0}
-  aimSpeed: 0.25
-  _defaultFOV: 80
+  aimSpeed: 10
+  _defaultFOV: 60
   zoomRatio: 0.5
   fpsCam: {fileID: 7131087343277178469}
+--- !u!1 &4053965975183447915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9106193376543734995}
+  m_Layer: 7
+  m_Name: Barrel Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9106193376543734995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4053965975183447915}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04349, y: 0.01899, z: 0.00199}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4742167240164965309}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4383737173960871719
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,10 +700,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 100
-  shootDelay: 0.3
+  shootDelay: 0.5
   damage: 50
-  bulletForce: 15
+  bulletForce: 45
   bulletPrefab: {fileID: 6878013706252857393, guid: 22a8847dfdbb3634e8a57a250634eac7, type: 3}
+  barrelExit: {fileID: 0}
   canFire: 0
 --- !u!114 &7508397940759321041
 MonoBehaviour:
@@ -711,7 +744,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6277671361467501500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.271, y: -0.334, z: 0.702}
+  m_LocalPosition: {x: 0.138, y: -0.162, z: 0.358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1017,6 +1050,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7245083097366262244, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3277720628022110737}
+    - targetCorrespondingSourceObject: {fileID: 7245083097366262244, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9106193376543734995}
     - targetCorrespondingSourceObject: {fileID: 9210005843258631322, guid: 4d81389e1aecdaa4c85a1d23d8653232, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1048725506948311268}

@@ -1,8 +1,11 @@
 #region
+using System;
+using System.Collections;
 using Essentials;
 using UnityEngine;
 using static Essentials.Attributes;
 using static Interfaces;
+using Random = UnityEngine.Random;
 #endregion
 
 public class Gun : MonoBehaviour
@@ -15,6 +18,7 @@ public class Gun : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] float bulletForce = 15f;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform barrelExit;
 
     [Header("Read-Only Fields")]
     [SerializeField, ReadOnly] bool canFire;
@@ -25,7 +29,10 @@ public class Gun : MonoBehaviour
     Aim_Down_Sights aimDownSights;
     ParticleRunner particleRunner;
     GameObject bulletsFired;
-    
+    TimeManager timeManager;
+
+    float shootDelayBeforeTimescale;
+
     // onshoot event
     public delegate void OnShoot();
     public event OnShoot onShoot;
@@ -38,9 +45,10 @@ public class Gun : MonoBehaviour
     public float ShootDelay
     {
         get => shootDelay;
-        set => shootDelay = value;
+        set => shootDelay  = value;
     }
-    public bool CanFire 
+
+    public bool CanFire
     { 
         get => canFire; 
         set => canFire = value; 
@@ -60,6 +68,7 @@ public class Gun : MonoBehaviour
         playerCam      = FindObjectOfType<Camera>();
         aimDownSights  = FindObjectOfType<Aim_Down_Sights>();
         particleRunner = GetComponentInChildren<ParticleRunner>();
+        timeManager    = FindObjectOfType<TimeManager>();
 
         // Create a header for the bullets fired.
         bulletsFired = new GameObject("Bullets Fired");
@@ -69,6 +78,9 @@ public class Gun : MonoBehaviour
 
         // Set the current magazine to the maximum size.
         magazine.CurrentMagCount = magazine.MaxMagazineSize;
+
+        // Set the shoot delay before timescale.
+        shootDelayBeforeTimescale = shootDelay;
     }
 
     void Update()
@@ -94,6 +106,8 @@ public class Gun : MonoBehaviour
         {
             CanFire = false;
 
+            StartCoroutine(Superhot());
+
             // Start the shoot animation.
             GunAnim.SetTrigger(DoShoot);
 
@@ -102,7 +116,7 @@ public class Gun : MonoBehaviour
             magazine.UpdateAmmoText();
 
             // instantiate a bullet and add force towards the hit object
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            GameObject bullet = Instantiate(bulletPrefab, barrelExit.position, barrelExit.rotation);
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletForce, ForceMode.Impulse);
 
             bullet.transform.parent = bulletsFired.transform;
@@ -135,11 +149,40 @@ public class Gun : MonoBehaviour
             }
 
             // ShootDelay == the time between each shot.
-        }, ShootDelay, () => CanFire = true));
+            //TODO: shoot delay unaffected by timescale when in slowmo.
+        }, ShootDelayUnscaled(), () => CanFire = true));
+    }
+
+    float ShootDelayUnscaled()
+    {
+        if (Time.timeScale < 1)
+        {
+            // Adjust the shoot delay based on the time scale
+            shootDelay = 0.2f;
+        }
+        else
+        {
+            shootDelay = shootDelayBeforeTimescale;
+        }
+
+        return shootDelay;
     }
 
     void Reload()
     {
         magazine.ReloadMagazine();
+    }
+
+    IEnumerator Superhot()
+    {
+        while (Math.Abs(Time.timeScale - 1) > 0.001)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1, 0.25f);
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        timeManager.SlowdownFactor = 0.05f;
     }
 }

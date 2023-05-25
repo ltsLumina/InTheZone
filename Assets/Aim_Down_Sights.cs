@@ -17,6 +17,8 @@ public class Aim_Down_Sights : MonoBehaviour
 
     // Cached References
     Animator gunAnimator;
+    TimeManager timeManager;
+    PlayerMovement player;
 
     // Cached Hashes
     readonly static int IsAds = Animator.StringToHash("isADS");
@@ -24,6 +26,8 @@ public class Aim_Down_Sights : MonoBehaviour
     void Start()
     {
         gunAnimator = FindObjectOfType<Gun>().GetComponentInChildren<Animator>();
+        timeManager = FindObjectOfType<TimeManager>();
+        player      = FindObjectOfType<PlayerMovement>();
     }
 
     void Update()
@@ -31,19 +35,23 @@ public class Aim_Down_Sights : MonoBehaviour
         // ADS camera and gun movement
         if(Input.GetButton("Fire2"))
         {
-            weaponPosition = Vector3.Lerp(weaponPosition, adsPosition.localPosition, aimSpeed * Time.deltaTime);
+            weaponPosition = Vector3.Lerp(weaponPosition, adsPosition.localPosition, aimSpeed * Time.unscaledDeltaTime);
             activeWeapon.localPosition = weaponPosition;
-            SetFieldOfView(Mathf.Lerp(fpsCam.FOV, zoomRatio * _defaultFOV, aimSpeed * Time.deltaTime));
+            SetFieldOfView(Mathf.Lerp(fpsCam.FOV, zoomRatio * _defaultFOV, aimSpeed * Time.unscaledDeltaTime));
 
             // slow down idle animation
             gunAnimator.SetBool(IsAds, true);
+
+            // Allow witch time while in the air and aiming.
+            if (!player.IsGrounded) timeManager.DoSlowMotion();
         }
         else
         {
-            weaponPosition = Vector3.Lerp(weaponPosition, defaultPosition.localPosition, aimSpeed * Time.deltaTime);
+            weaponPosition = Vector3.Lerp(weaponPosition, defaultPosition.localPosition, aimSpeed * Time.unscaledDeltaTime);
             activeWeapon.localPosition = weaponPosition;
-            SetFieldOfView(Mathf.Lerp(fpsCam.FOV, _defaultFOV, aimSpeed * Time.deltaTime));
+            SetFieldOfView(Mathf.Lerp(fpsCam.FOV, _defaultFOV, aimSpeed * Time.unscaledDeltaTime));
             gunAnimator.SetBool(IsAds, false);
+            TimeManager.ResetTimeScale();
         }
     }
 
