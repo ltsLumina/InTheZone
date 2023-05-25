@@ -1,76 +1,105 @@
+#region
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 public class PlayerZoneBehaviour : MonoBehaviour
 {
-   [SerializeField] bool inTheZone = false;
-   [SerializeField] Canvas zoneCamOverlay;
+    [SerializeField] bool inTheZone;
+    [SerializeField] Canvas zoneCamOverlay;
 
-   [SerializeField] int healthLossAmount = 2;
-   [SerializeField] int healthGainAmount = 1;
+    [SerializeField] int healthLossAmount = 2;
+    [SerializeField] int healthGainAmount = 1;
 
     [SerializeField] float healthChangeRate = 1f;
 
     // Public referances
-    public Gun gunScript;
-    public Health healthScript;
+    Gun gun;
+    Magazine mag;
+    Health health;
+
     // Private referances
-    private GameObject currentZone;
+    GameObject currentZone;
 
+    // onEnterZone event
+    public delegate void OnEnterZone();
+    public event OnEnterZone onEnterZone;
 
-    private void Awake()
+    public bool InTheZone
     {
-        StartCoroutine(HealthLoop());
+        get => inTheZone;
+        set => inTheZone = value;
     }
+
+    void Awake()
+    {
+        // subscribe to the onEnterZone event
+        onEnterZone += EnterZone;
+
+        gun    = FindObjectOfType<Gun>();
+        mag    = FindObjectOfType<Magazine>();
+        health = FindObjectOfType<PlayerMovement>().GetComponent<Health>();
+    }
+
+    void EnterZone()
+    {
+
+    }
+
+    void Start() => StartCoroutine(HealthLoop());
 
     void Update()
     {
-        if (inTheZone && currentZone != null)
+        if (InTheZone && currentZone != null)
         {
-            zoneCamOverlay.enabled = true;
-            gunScript.CanFire = true;
+            // Can shoot if in zone, but not reload.
+            //zoneCamOverlay.enabled = true;
+            gun.enabled   = true;
+            mag.CanReload = false;
         }
         else
         {
-            zoneCamOverlay.enabled = false;
-            gunScript.CanFire = false;
+            // Can not shoot if in zone, but can reload.
+            //zoneCamOverlay.enabled = false;
+            gun.enabled   = false;
+            mag.CanReload = true;
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Zone")
+        onEnterZone?.Invoke();
+        currentZone = other.gameObject;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Zone"))
         {
-            inTheZone = true;
-            currentZone = other.gameObject;
+            InTheZone   = true;
+            currentZone = other.gameObject; //TODO: MAY RETURN AN ERROR IF YOU COLLIDE WITH ENEMY
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Zone")
+        if (other.CompareTag("Zone"))
         {
-            inTheZone = false;
+            InTheZone   = false;
             currentZone = null;
         }
     }
 
-    private IEnumerator HealthLoop()
+    IEnumerator HealthLoop()
     {
         while (true)
         {
-            if (inTheZone)
-            {
-                healthScript.CurrentHealth  += healthGainAmount;
-            }
-            else
-            {
-                healthScript.CurrentHealth -= healthLossAmount;
-            }
+            if (InTheZone) health.CurrentHealth += healthGainAmount;
+            else health.CurrentHealth           -= healthLossAmount;
 
             //// Clamp the health value between 0 and 100
-            //healthScript.currentHealth = Mathf.Clamp(healthScript.currentHealth, 0f, 100f);
+            health.CurrentHealth = Mathf.Clamp(health.CurrentHealth, 0, 100);
 
             yield return new WaitForSeconds(healthChangeRate);
         }

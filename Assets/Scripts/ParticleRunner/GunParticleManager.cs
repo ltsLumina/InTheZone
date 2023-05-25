@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
-public class ParticleRunner : MonoBehaviour
+public class GunParticleManager : MonoBehaviour
 {
+    [Header("Gun Particles")]
     [SerializeField] ParticleSystem[] gunParticles;
 
     public void GunParticles()
