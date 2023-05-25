@@ -12,9 +12,6 @@ public abstract class EnemyAI : MonoBehaviour
     //[SerializeField] float knockbackDuration = 0.5f;
     [SerializeField] float knockbackAmount;
     [SerializeField] float knockbackMultiplier;
-    float distanceToTarget = Mathf.Infinity;
-
-    protected PlayerMovement player;
     
     Rigidbody playerRigidbody;
     NavMeshAgent navMeshAgent;
@@ -36,8 +33,6 @@ public abstract class EnemyAI : MonoBehaviour
         playerRigidbody  = GetComponent<Rigidbody>();
         player           = FindObjectOfType<PlayerMovement>();
         target           = player.transform;
-        player = FindObjectOfType<PlayerMovement>();
-        target = player.transform;
     }
 
     // Update is called once per frame
