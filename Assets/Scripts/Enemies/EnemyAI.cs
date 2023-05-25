@@ -8,7 +8,7 @@ public abstract class EnemyAI : MonoBehaviour
     float distanceToTarget = Mathf.Infinity;
 
     protected PlayerMovement player;
-    
+
     protected Transform target;
     
     // Start is called before the first frame update

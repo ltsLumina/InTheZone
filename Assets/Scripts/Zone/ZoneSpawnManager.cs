@@ -9,6 +9,7 @@ public class ZoneSpawnManager : MonoBehaviour
     [SerializeField] GameObject[] zoneSpawnPos;
     [SerializeField] float zoneDuration = 60f;
 
+
     private List<GameObject> zoneList = new List<GameObject>();
     int currentZoneIndex = 0;
 
@@ -17,7 +18,6 @@ public class ZoneSpawnManager : MonoBehaviour
     {
         SpawnFirstZone();
     }
-
     void SpawnFirstZone()
     {
         GameObject zone1 = InstantiateZone();
@@ -60,4 +60,5 @@ public class ZoneSpawnManager : MonoBehaviour
         // Start spawning the following zone
         StartCoroutine(SpawnZoneWithDelay(zoneDuration));
     }
+
 }
