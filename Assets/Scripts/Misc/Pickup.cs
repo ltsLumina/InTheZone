@@ -8,6 +8,7 @@ public class Pickup : MonoBehaviour
     void Start()
     {
         magazine = FindObjectOfType<Magazine>();
+        gun = FindObjectOfType<Gun>();
     }
 
     void OnTriggerEnter(Collider other)
