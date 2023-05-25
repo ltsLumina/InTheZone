@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float wallStickDistance = 1f;
     [SerializeField] float wallFloorBarrier = 40f;
     [SerializeField] float wallBanTime = 4f;
+
     Vector3 bannedGroundNormal;
 
     //Cooldowns
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, ReadOnly] bool running;
     [SerializeField, ReadOnly] bool jump;
     [SerializeField, ReadOnly] bool crouched;
-    [SerializeField, ReadOnly] bool grounded;
+    [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
     Collider ground;
     Vector3 groundNormal = Vector3.up;
@@ -162,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
                     return;
 
                 EnterWalking();
-                grounded     = true;
+                IsGrounded     = true;
                 groundNormal = contact.normal;
                 ground       = contact.otherCollider;
                 foundGround  = true;
@@ -172,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
             if (foundWall || !(angle < 120f) || contact.otherCollider.CompareTag("NoWallrun") ||
                 contact.otherCollider.CompareTag("Player")) continue;
 
-            grounded     = true;
+            IsGrounded     = true;
             groundNormal = contact.normal;
             ground       = contact.otherCollider;
             EnterWallrun();
@@ -180,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (!foundGround && VectorToGround().sqrMagnitude > 0.2f * 0.2f)
-            grounded = false;
+            IsGrounded = false;
     }
 
 
@@ -210,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
 
     void EnterFlying(bool wishFly = false)
     {
-        grounded = false;
+        IsGrounded = false;
         if (mode == Mode.Wallrunning && VectorToWall().magnitude < wallStickDistance && !wishFly) return;
 
         if (mode != Mode.Flying)
@@ -298,6 +299,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(wishDir.normalized * accelVel, ForceMode.VelocityChange);
     }
 
+
     void Wallrun(Vector3 wishDir, float maxSpeed, float climbSpeed, float acceleration)
     {
         if (jump)
@@ -348,7 +350,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(distance * wallStickiness, ForceMode.Acceleration);
         }
 
-        if (!grounded)
+        if (!IsGrounded)
         {
             wallStickTimer = 0.2f;
             EnterFlying();
