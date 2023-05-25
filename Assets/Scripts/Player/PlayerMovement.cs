@@ -51,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, ReadOnly] bool crouched;
     [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
+    [SerializeField] ParticleSystem runningParticles;
+    [SerializeField] ParticleSystem jumpParticles;
+    [SerializeField] ParticleSystem wallRunParticles;
+    [SerializeField] ParticleSystem pickupParticles;
+
     Collider ground;
     Vector3 groundNormal = Vector3.up;
     CapsuleCollider col;
@@ -67,6 +72,10 @@ public class PlayerMovement : MonoBehaviour
     CameraController camCon;
     Rigidbody rb;
     Vector3 dir = Vector3.zero;
+
+    bool isWalking;
+    bool isJumping;
+    bool isWallRunning;
 
     void Start()
     {
@@ -361,6 +370,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (mode == Mode.Walking && canJump)
         {
+            isJumping = true;
             float upForce = Mathf.Clamp(jumpUpSpeed - rb.velocity.y, 0, Mathf.Infinity);
             rb.AddForce(new (0, upForce, 0), ForceMode.VelocityChange);
             StartCoroutine(jumpCooldownCoroutine(0.2f));
@@ -465,6 +475,30 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.positiveInfinity;
     }
     #endregion
+
+    void particlePlayer()
+    {
+        // if (IsGrounded && isWalking)
+        // {
+        //     runningParticles.isEmitting = true;
+        // }
+        // else
+        // {
+        //     runningParticles.isEmitting = false;
+        // }
+        if (isJumping)
+        {
+            jumpParticles.Play();
+        }
+        // if (isWallRunning && IsGrounded)
+        // {
+        //     wallRunParticles.isEmitting = true;
+        // }
+        // else
+        // {
+        //     wallRunParticles.isEmitting = false;
+        // }
+    }
 
     #region Coroutines
     IEnumerator jumpCooldownCoroutine(float time)
