@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class PlayerZoneBehaviour : MonoBehaviour
 {
-    [SerializeField] bool inTheZone = false;
-    [SerializeField] Canvas zoneCamOverlay;
+   [SerializeField] bool inTheZone = false;
+   [SerializeField] Canvas zoneCamOverlay;
 
+   [SerializeField] int healthLossAmount = 2;
+   [SerializeField] int healthGainAmount = 1;
+
+    [SerializeField] float healthChangeRate = 1f;
+
+    // Public referances
+    public Gun gunScript;
+    public Health healthScript;
+    // Private referances
     private GameObject currentZone;
 
-   public Gun gunScript;
+
+    private void Awake()
+    {
+        StartCoroutine(HealthLoop());
+    }
 
     void Update()
     {
@@ -17,7 +30,7 @@ public class PlayerZoneBehaviour : MonoBehaviour
         {
             zoneCamOverlay.enabled = true;
             gunScript.CanFire = true;
-         }
+        }
         else
         {
             zoneCamOverlay.enabled = false;
@@ -43,5 +56,23 @@ public class PlayerZoneBehaviour : MonoBehaviour
         }
     }
 
-    
+    private IEnumerator HealthLoop()
+    {
+        while (true)
+        {
+            if (inTheZone)
+            {
+                healthScript.CurrentHealth  += healthGainAmount;
+            }
+            else
+            {
+                healthScript.CurrentHealth -= healthLossAmount;
+            }
+
+            //// Clamp the health value between 0 and 100
+            //healthScript.currentHealth = Mathf.Clamp(healthScript.currentHealth, 0f, 100f);
+
+            yield return new WaitForSeconds(healthChangeRate);
+        }
+    }
 }
