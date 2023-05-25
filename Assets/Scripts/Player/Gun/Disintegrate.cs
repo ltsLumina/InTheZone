@@ -2,7 +2,7 @@ using System;
 using Essentials;
 using UnityEngine;
 
-public class DestroyThrownGun : MonoBehaviour
+public class Disintegrate : MonoBehaviour
 {
     [Tooltip("The time the object is on the ground before dissipating."),
     SerializeField] float groundTime;

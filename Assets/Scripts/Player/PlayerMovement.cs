@@ -49,16 +49,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, ReadOnly] bool running;
     [SerializeField, ReadOnly] bool jump;
     [SerializeField, ReadOnly] bool crouched;
-    [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
+    [SerializeField, ReadOnly] bool isGrounded;
 
-    [SerializeField] ParticleSystem runningParticles;
-    [SerializeField] ParticleSystem jumpParticles;
-    [SerializeField] ParticleSystem wallRunParticles;
-    [SerializeField] ParticleSystem pickupParticles;
+     public bool IsGrounded
+    {
+        get => isGrounded;
+        private set => isGrounded = value;
+    }
+
+    public bool IsJumping { get; set; }
 
     Collider ground;
     Vector3 groundNormal = Vector3.up;
     CapsuleCollider col;
+    PlayerParticles playerParticles;
 
     enum Mode
     {
@@ -74,14 +78,14 @@ public class PlayerMovement : MonoBehaviour
     Vector3 dir = Vector3.zero;
 
     bool isWalking;
-    bool isJumping;
     bool isWallRunning;
 
     void Start()
     {
-        rb     = GetComponent<Rigidbody>();
-        camCon = GetComponentInChildren<CameraController>();
-        col    = GetComponent<CapsuleCollider>();
+        rb              = GetComponent<Rigidbody>();
+        camCon          = GetComponentInChildren<CameraController>();
+        col             = GetComponent<CapsuleCollider>();
+        playerParticles = FindObjectOfType<PlayerParticles>();
     }
 
     void OnGUI()
@@ -121,17 +125,22 @@ public class PlayerMovement : MonoBehaviour
         switch (mode)
         {
             case Mode.Wallrunning:
+                playerParticles.StopParticle(PlayerParticles.Type.WallRunning);
                 camCon.SetTilt(WallrunCameraAngle());
                 Wallrun(dir, wallSpeed, wallClimbSpeed, wallAccel);
+                playerParticles.ParticlePlayer(PlayerParticles.Type.WallRunning);
                 if (!ground.CompareTag("InfiniteWallrun")) wrTimer = Mathf.Max(wrTimer - Time.deltaTime, 0f);
                 break;
 
             case Mode.Walking:
+                playerParticles.StopParticle(PlayerParticles.Type.WallRunning);
                 camCon.SetTilt(0);
                 Walk(dir, running ? runSpeed : groundSpeed, groundAccel);
+                playerParticles.ParticlePlayer(PlayerParticles.Type.Running);
                 break;
 
             case Mode.Flying:
+                playerParticles.StopParticle(PlayerParticles.Type.WallRunning);
                 camCon.SetTilt(0);
                 AirMove(dir, airSpeed, airAccel);
                 break;
@@ -370,9 +379,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (mode == Mode.Walking && canJump)
         {
-            isJumping = true;
+            IsJumping = true;
             float upForce = Mathf.Clamp(jumpUpSpeed - rb.velocity.y, 0, Mathf.Infinity);
             rb.AddForce(new (0, upForce, 0), ForceMode.VelocityChange);
+            playerParticles.ParticlePlayer(PlayerParticles.Type.Jump);
             StartCoroutine(jumpCooldownCoroutine(0.2f));
             EnterFlying(true);
         }
@@ -475,30 +485,6 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.positiveInfinity;
     }
     #endregion
-
-    void particlePlayer()
-    {
-        // if (IsGrounded && isWalking)
-        // {
-        //     runningParticles.isEmitting = true;
-        // }
-        // else
-        // {
-        //     runningParticles.isEmitting = false;
-        // }
-        if (isJumping)
-        {
-            jumpParticles.Play();
-        }
-        // if (isWallRunning && IsGrounded)
-        // {
-        //     wallRunParticles.isEmitting = true;
-        // }
-        // else
-        // {
-        //     wallRunParticles.isEmitting = false;
-        // }
-    }
 
     #region Coroutines
     IEnumerator jumpCooldownCoroutine(float time)

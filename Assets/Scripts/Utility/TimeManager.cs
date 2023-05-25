@@ -1,8 +1,16 @@
+using System;
 using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
     [SerializeField] float slowdownFactor = 0.05f;
+
+    Magazine mag;
+
+    void Start()
+    {
+        mag = FindObjectOfType<Magazine>();
+    }
 
     public float SlowdownFactor
     {
@@ -14,6 +22,8 @@ public class TimeManager : MonoBehaviour
     {
         Time.timeScale = SlowdownFactor;
         Time.fixedDeltaTime = Time.timeScale * .02f;
+
+        if (mag.Reloading()) ResetTimeScale();
     }
 
     public static void ResetTimeScale()

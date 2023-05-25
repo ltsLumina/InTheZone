@@ -27,7 +27,7 @@ public class Gun : MonoBehaviour
     Magazine magazine;
     Camera playerCam;
     Aim_Down_Sights aimDownSights;
-    ParticleRunner particleRunner;
+    GunParticleManager gunParticleManager;
     GameObject bulletsFired;
     TimeManager timeManager;
 
@@ -57,18 +57,14 @@ public class Gun : MonoBehaviour
     void Start()
     {
         // subscribe to the onShoot event
-        onShoot += () =>
-        {
-            Shoot();
-            particleRunner.GunParticles();
-        };
+        onShoot += Shoot;
 
-        magazine       = GetComponent<Magazine>();
-        GunAnim        = FindObjectOfType<GunAnimationEvents>().GetComponent<Animator>();
-        playerCam      = FindObjectOfType<Camera>();
-        aimDownSights  = FindObjectOfType<Aim_Down_Sights>();
-        particleRunner = GetComponentInChildren<ParticleRunner>();
-        timeManager    = FindObjectOfType<TimeManager>();
+        magazine        = GetComponent<Magazine>();
+        GunAnim         = FindObjectOfType<GunAnimationEvents>().GetComponent<Animator>();
+        playerCam       = FindObjectOfType<Camera>();
+        aimDownSights   = FindObjectOfType<Aim_Down_Sights>();
+        gunParticleManager = FindObjectOfType<GunParticleManager>();
+        timeManager     = FindObjectOfType<TimeManager>();
 
         // Create a header for the bullets fired.
         bulletsFired = new GameObject("Bullets Fired");
@@ -91,11 +87,6 @@ public class Gun : MonoBehaviour
             onShoot?.Invoke();
         }
 
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            //aimDownSights.ADS();
-        }
-
         if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
 
@@ -106,10 +97,11 @@ public class Gun : MonoBehaviour
         {
             CanFire = false;
 
-            StartCoroutine(Superhot());
+            StartCoroutine(DeductTimeScalePerShot());
 
             // Start the shoot animation.
             GunAnim.SetTrigger(DoShoot);
+            gunParticleManager.GunParticles();
 
             // Reduce ammo and update the text displayed on the gun.
             magazine.CurrentMagCount--;
@@ -155,17 +147,8 @@ public class Gun : MonoBehaviour
 
     float ShootDelayUnscaled()
     {
-        shootDelayBeforeTimescale = shootDelay;
-
-        if (Time.timeScale < 1)
-        {
-            // Adjust the shoot delay based on the time scale
-            shootDelay = 0.2f;
-        }
-        else
-        {
-            shootDelay = shootDelayBeforeTimescale;
-        }
+        // Adjust the shoot delay based on the time scale
+        shootDelay = Time.timeScale < 1 ? shootDelay * shootDelayBeforeTimescale : shootDelayBeforeTimescale;
 
         return shootDelay;
     }
@@ -175,7 +158,7 @@ public class Gun : MonoBehaviour
         magazine.ReloadMagazine();
     }
 
-    IEnumerator Superhot()
+    IEnumerator DeductTimeScalePerShot()
     {
         while (Math.Abs(Time.timeScale - 1) > 0.001)
         {
