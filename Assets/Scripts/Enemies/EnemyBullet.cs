@@ -15,7 +15,7 @@ public class EnemyBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             playerHealth.CurrentHealth -= bulletDamage;
         } 

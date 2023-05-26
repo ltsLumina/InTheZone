@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float attackTimer = 4f;
     [SerializeField] float knockbackAmount;
     [SerializeField] float knockbackMultiplier;
+    [SerializeField] int meleeDamage = 2;
     
     Rigidbody playerRigidbody;
     protected NavMeshAgent navMeshAgent;
@@ -27,9 +28,10 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        playerRigidbody  = GetComponent<Rigidbody>();
-        player           = FindObjectOfType<PlayerMovement>();
-        target           = player.transform;
+        playerRigidbody = GetComponent<Rigidbody>();
+        player          = FindObjectOfType<PlayerMovement>();
+        playerHealth    = FindObjectOfType<Health>();
+        target          = player.transform;
     }
 
     // Update is called once per frame
@@ -74,7 +76,7 @@ public class EnemyAI : MonoBehaviour
         attacking = true;
         Debug.Log(name + " is attacking " + target.name);
 
-        //playerHealth.CurrentHealth--;
+        playerHealth.CurrentHealth -= meleeDamage;
         
         Vector3 knockbackVector = Vector3.Normalize(target.position - transform.position) * knockbackAmount;
         
