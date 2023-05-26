@@ -983,6 +983,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4270346765623221981, guid: 2adedf23f97977345b9764c5ce97653e, type: 3}
+      propertyPath: autoSpawnEnemies
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270346765623221981, guid: 2adedf23f97977345b9764c5ce97653e, type: 3}
+      propertyPath: xSpawnConstraint
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270346765623221981, guid: 2adedf23f97977345b9764c5ce97653e, type: 3}
+      propertyPath: zSpawnConstraint
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270346765623221981, guid: 2adedf23f97977345b9764c5ce97653e, type: 3}
+      propertyPath: frontDirectionLockAngle
+      value: 42.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4907115527729301080, guid: 2adedf23f97977345b9764c5ce97653e, type: 3}
       propertyPath: m_RootOrder
       value: 2
