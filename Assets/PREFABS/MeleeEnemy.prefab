@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 7666197892143580517}
   - component: {fileID: 7069524284531772832}
   - component: {fileID: 3003855022140319946}
+  - component: {fileID: 8029126502221637068}
   m_Layer: 0
   m_Name: MeleeEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,7 @@ Transform:
   m_Children:
   - {fileID: 4156429486070272983}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2541014306285027512
 MeshFilter:
@@ -125,7 +126,7 @@ MonoBehaviour:
   attackTimer: 4
   knockbackAmount: 4
   knockbackMultiplier: 12
-  meleeDamage: 2
+  meleeDamage: 10
 --- !u!195 &3003855022140319946
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -148,6 +149,21 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8029126502221637068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63389054045233083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3effaed6f0e2de4f8492f28312b9dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 15
+  currentHealth: 15
+  timeBeforeDeath: 0
 --- !u!1001 &4477743400087516220
 PrefabInstance:
   m_ObjectHideFlags: 0

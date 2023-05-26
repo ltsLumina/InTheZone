@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 8063030252824607824}
   - component: {fileID: 4063915811695398545}
   - component: {fileID: 1717731637514441909}
+  - component: {fileID: 4313985953568343599}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +37,7 @@ Transform:
   - {fileID: 8944411023373947698}
   - {fileID: 3627058742651499528}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8846862294864976115
 MeshFilter:
@@ -148,12 +149,27 @@ MonoBehaviour:
   attackTimer: 4
   knockbackAmount: 4
   knockbackMultiplier: 12
-  meleeDamage: 2
+  meleeDamage: 6
   attackRange: 3
   projectilePrefab: {fileID: 6878013706252857393, guid: 9f18d2f02af16804e91ccaea02bcb40a, type: 3}
   projectileSpawnPoint: {fileID: 8944411023373947698}
-  projectileForce: 2
+  projectileForce: 6
   attackCooldown: 2
+--- !u!114 &4313985953568343599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538092318188802057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3effaed6f0e2de4f8492f28312b9dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 10
+  timeBeforeDeath: 0
 --- !u!1 &8959910007485003348
 GameObject:
   m_ObjectHideFlags: 0
