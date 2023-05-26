@@ -39,6 +39,7 @@ public class Health : MonoBehaviour, IDamageable
         Debug.Log($"{gameObject.name} took {damage} damage!");
     }
 
+    
     public void Death()
     {
         Debug.Log($"{gameObject.name} has died!");

@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     
     protected float distanceToTarget = Mathf.Infinity;
     protected PlayerMovement player;
+
     protected Transform target;
     
     protected bool attacking = false;
