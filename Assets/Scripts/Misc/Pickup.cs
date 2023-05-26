@@ -4,6 +4,7 @@ public class Pickup : MonoBehaviour
 {
     Gun gun;
     Magazine magazine;
+    [SerializeField] ParticleSystem pickupParticles;
 
     void Start()
     {
@@ -14,13 +15,13 @@ public class Pickup : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
-
         gun.ShootDelay *= 0.85f;
+        pickupParticles.Play();
 
         float round = Mathf.Round(magazine.MaxMagazineSize * 1.25f);
         magazine.MaxMagazineSize = round;
 
         Debug.Log($"ShootDelay = {gun.ShootDelay}MagazineSize = {magazine.MaxMagazineSize}");
-        Destroy(gameObject);
+        Destroy(gameObject, 0.2f);
     }
 }

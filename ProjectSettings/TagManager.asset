@@ -8,6 +8,9 @@ TagManager:
   - InfiniteWallrun
   - DroppedGun
   - Enemy
+  - Zone
+  - PickUP
+  - Bullet
   layers:
   - Default
   - TransparentFX
