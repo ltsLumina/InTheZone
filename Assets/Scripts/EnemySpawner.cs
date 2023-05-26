@@ -9,11 +9,12 @@ public class EnemySpawner : MonoBehaviour
 {
     // configurable parameters
     [SerializeField] float enemySpawnFrequency = 3f;
-    [SerializeField] float enemySpawnDistance = 10f;
+    [SerializeField] float minEnemySpawnDistance = 15f;
+    [SerializeField] float maxEnemySpawnDistance = 60f;
     [SerializeField] float playerVisionAngle = 50f;
     [SerializeField] int initialEnemySpawnCount;
     [SerializeField] GameObject spawnHeightChecker;
-    [SerializeField] float heightCheckerHeight = 20;
+    [SerializeField] float heightCheckerHeight = 20f;
     [SerializeField] bool autoSpawnEnemies;
 
     // private variables
@@ -47,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         Vector3 spawnDirection = Quaternion.AngleAxis(Random.Range(playerVisionAngle, 360 - playerVisionAngle), Vector3.down) * player.forward;
-        Vector3 spawnPosition = player.position + (spawnDirection * enemySpawnDistance) + new Vector3(0, heightCheckerHeight, 0);
+        Vector3 spawnPosition = player.position + (spawnDirection * Random.Range(minEnemySpawnDistance, maxEnemySpawnDistance)) + new Vector3(0, heightCheckerHeight, 0);
 
         Instantiate(spawnHeightChecker, spawnPosition, Quaternion.identity);
     }
@@ -72,7 +73,14 @@ public class EnemySpawner : MonoBehaviour
         for (float angle = playerVisionAngle + 5f; angle < 360f - playerVisionAngle; angle += 5f)
         {
             Vector3 nextPoint = Quaternion.AngleAxis(angle, Vector3.down) * player.forward;
-            Gizmos.DrawLine(player.position + previousPoint * enemySpawnDistance, player.position + nextPoint * enemySpawnDistance);
+            Gizmos.DrawLine(player.position + previousPoint * minEnemySpawnDistance, player.position + nextPoint * minEnemySpawnDistance);
+            previousPoint = nextPoint;
+        }
+
+        for (float angle = playerVisionAngle + 5f; angle < 360f - playerVisionAngle; angle += 5f)
+        {
+            Vector3 nextPoint = Quaternion.AngleAxis(angle, Vector3.down) * player.forward;
+            Gizmos.DrawLine(player.position + previousPoint * maxEnemySpawnDistance, player.position + nextPoint * maxEnemySpawnDistance);
             previousPoint = nextPoint;
         }
     }
