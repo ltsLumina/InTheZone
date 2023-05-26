@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float groundSpeed = 4f;
     [SerializeField] float runSpeed = 6f;
     [SerializeField] float groundAccel = 20f;
+    [SerializeField] AudioSource walkSFX;
 
     //Air
     [Header("Airborne")]
@@ -133,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
             case Mode.Walking:
                 playerParticles.StopParticle(PlayerParticles.Type.WallRunning);
+                walkSFX.Play();
                 camCon.SetTilt(0);
                 Walk(dir, running ? runSpeed : groundSpeed, groundAccel);
                 playerParticles.ParticlePlayer(PlayerParticles.Type.Running);

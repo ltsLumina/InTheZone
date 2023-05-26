@@ -5,6 +5,7 @@ public class Pickup : MonoBehaviour
     Gun gun;
     Magazine magazine;
     [SerializeField] ParticleSystem pickupParticles;
+    [SerializeField] AudioSource pickupSFX;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class Pickup : MonoBehaviour
         if (!other.gameObject.CompareTag("Player")) return;
         gun.ShootDelay *= 0.85f;
         pickupParticles.Play();
+        pickupSFX.Play();
 
         float round = Mathf.Round(magazine.MaxMagazineSize * 1.25f);
         magazine.MaxMagazineSize = round;

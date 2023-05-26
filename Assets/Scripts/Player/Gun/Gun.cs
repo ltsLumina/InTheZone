@@ -21,6 +21,7 @@ public class Gun : MonoBehaviour
 
     [Header("Read-Only Fields")]
     [SerializeField] bool canFire;
+    [SerializeField] AudioSource gunSFX;
 
     // Cached References.
     Magazine magazine;
@@ -95,6 +96,7 @@ public class Gun : MonoBehaviour
         StartCoroutine(Sequencing.SequenceActions(() =>
         {
             CanFire = false;
+            gunSFX.Play();
 
             StartCoroutine(DeductTimeScalePerShot());
 

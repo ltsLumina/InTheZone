@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RangedEnemy : EnemyAI
 {
@@ -8,6 +9,9 @@ public class RangedEnemy : EnemyAI
     [SerializeField] Transform projectileSpawnPoint;
     [SerializeField] float projectileForce = 2f;
     [SerializeField] float attackCooldown = 2f;
+
+    NavMeshAgent nav;
+    Animator anim;
 
     protected override void EngageTarget()
     {
@@ -32,11 +36,9 @@ public class RangedEnemy : EnemyAI
             navMeshAgent.isStopped = true;
             return;
         }
-        else
-        {
-            navMeshAgent.isStopped = false;
-        }
-        
+
+        navMeshAgent.isStopped = false;
+
         base.ChaseTarget();
     }
 

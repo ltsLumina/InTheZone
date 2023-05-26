@@ -8,6 +8,7 @@ public class PlayerZoneBehaviour : MonoBehaviour
 {
     [SerializeField] bool inTheZone;
     [SerializeField] Canvas zoneCamOverlay;
+    [SerializeField] Canvas outsideZoneCamOverlay;
 
     [SerializeField] int healthLossAmount = 2;
     [SerializeField] int healthGainAmount = 1;
@@ -54,14 +55,16 @@ public class PlayerZoneBehaviour : MonoBehaviour
         if (InTheZone && currentZone != null)
         {
             // Can shoot if in zone, but not reload.
-            //zoneCamOverlay.enabled = true;
-            gun.enabled   = true;
-            mag.CanReload = false;
+            zoneCamOverlay.enabled        = true;
+            outsideZoneCamOverlay.enabled = false;
+            gun.enabled                   = true;
+            mag.CanReload                 = false;
         }
         else
         {
             // Can not shoot if in zone, but can reload.
-            //zoneCamOverlay.enabled = false;
+            zoneCamOverlay.enabled = false;
+            outsideZoneCamOverlay.enabled = true;
             gun.enabled   = false;
             mag.CanReload = true;
         }

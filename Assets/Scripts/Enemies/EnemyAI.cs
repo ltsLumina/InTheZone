@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,9 +9,11 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float knockbackAmount;
     [SerializeField] float knockbackMultiplier;
     [SerializeField] int meleeDamage = 2;
+    [SerializeField] AudioSource walkSFX;
     
     Rigidbody playerRigidbody;
     protected NavMeshAgent navMeshAgent;
+    protected Animator anim;
     
     protected float distanceToTarget = Mathf.Infinity;
     protected PlayerMovement player;
@@ -20,11 +23,6 @@ public class EnemyAI : MonoBehaviour
     
     protected bool attacking = false;
 
-    public virtual void Awake()
-    {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-    }
-    
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -32,6 +30,9 @@ public class EnemyAI : MonoBehaviour
         player          = FindObjectOfType<PlayerMovement>();
         playerHealth    = FindObjectOfType<Health>();
         target          = player.transform;
+
+        navMeshAgent  = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -40,6 +41,7 @@ public class EnemyAI : MonoBehaviour
         distanceToTarget = Vector3.Distance(target.position, transform.position);
         
         EngageTarget();
+        AnimationHandler();
     }
     
     protected virtual void EngageTarget()
@@ -85,5 +87,33 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("ahhhhh");
         yield return new WaitForSeconds(attackTimer);
         attacking = false;
+    }
+
+    void AnimationHandler()
+    {
+        // check if navagent is moving and set "Move" animator bool accordingly
+        anim.SetBool("Walk", navMeshAgent.velocity.magnitude > 0);
+
+        // if idle and not attacking, set "Idle" animator bool accordingly
+        if (navMeshAgent.velocity.magnitude == 0 && !attacking)
+        {
+            anim.SetBool("Idle", true);
+        }
+        else
+        {
+            anim.SetBool("Idle", false);
+            walkSFX.Play();
+            // walking
+        }
+
+        // if attacking, set "Attack" animator bool accordingly
+        if (gameObject.name == "MeleeEnemy")
+        {
+            anim.SetBool("MeleeAttack", attacking);
+        }
+        else if (gameObject.name == "RangedEnemy")
+        {
+            anim.SetBool("RangedAttack", attacking);
+        }
     }
 }
