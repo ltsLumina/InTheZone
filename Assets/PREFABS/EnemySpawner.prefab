@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4270346765623221981
 MonoBehaviour:
@@ -44,9 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a4be09d86c3fa46849b592251e5f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpawnFrequency: 3
-  xSpawnConstraint: 20
-  zSpawnConstraint: 20
-  initialEnemySpawnCount: 5
-  spawnHeightChecker: {fileID: 9099598094810935162, guid: 15ce626d9fb449045a5e96d97cb478d5, type: 3}
-  heightCheckerHeight: 20
+  enemySpawnFrequency: 2
+  minEnemySpawnDistance: 7.5
+  maxEnemySpawnDistance: 40
+  playerVisionAngle: 50
+  enemySpawnCount: 4
+  heightChecker: {fileID: 9099598094810935162, guid: 15ce626d9fb449045a5e96d97cb478d5, type: 3}
+  heightCheckerSpawnHeight: 20
+  autoSpawnEnemies: 1
+  randomizeEnemyTypes: 0
+  enemyMultiplier: 1.25
+  enemyMultiplierTimer: 60
