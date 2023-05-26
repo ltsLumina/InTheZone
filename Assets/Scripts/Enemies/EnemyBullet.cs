@@ -12,10 +12,17 @@ public class EnemyBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        // if (other.gameObject.CompareTag("Player"))
+        // {
+        //     playerHealth.CurrentHealth -= bulletDamage;
+        // } 
+        // Destroy(gameObject);
+
+        if (TryGetComponent(out Interfaces.IDamageable health) && CompareTag("Player"))
         {
-            playerHealth.CurrentHealth -= bulletDamage;
-        } 
+            health.CurrentHealth -= bulletDamage;
+        }
         Destroy(gameObject);
+        
     }
 }

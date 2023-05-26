@@ -21,8 +21,8 @@ public class ZoneSpawnManager : MonoBehaviour
     void SpawnFirstZone()
     {
         GameObject zone1 = InstantiateZone();
-        StartCoroutine(DestroyZoneAfterDelay(zone1, 20f));//70 
-        StartCoroutine(SpawnZoneWithDelay(10f));//60
+        StartCoroutine(DestroyZoneAfterDelay(zone1, 70f));//70 
+        StartCoroutine(SpawnZoneWithDelay(60f));//60
     }
 
     GameObject InstantiateZone()
