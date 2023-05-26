@@ -10,6 +10,7 @@ public class Health : MonoBehaviour, IDamageable
     [Header("Health Options")]
     [SerializeField] int maxHealth;
     [SerializeField, Range(0,100)] int currentHealth;
+    [SerializeField] float timeBeforeDeath = 2f;
 
     public int MaxHealth
     {
@@ -43,6 +44,6 @@ public class Health : MonoBehaviour, IDamageable
     public void Death()
     {
         Debug.Log($"{gameObject.name} has died!");
-        Destroy(gameObject);
+        Destroy(gameObject, timeBeforeDeath);
     }
 }

@@ -5,16 +5,16 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] float attackTimer = 4f;
-    //[SerializeField] float knockbackForce = 10f;
-    //[SerializeField] float knockbackDuration = 0.5f;
     [SerializeField] float knockbackAmount;
     [SerializeField] float knockbackMultiplier;
+    [SerializeField] int meleeDamage = 2;
     
     Rigidbody playerRigidbody;
     protected NavMeshAgent navMeshAgent;
     
     protected float distanceToTarget = Mathf.Infinity;
     protected PlayerMovement player;
+    protected Health playerHealth;
 
     protected Transform target;
     
@@ -28,9 +28,10 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        playerRigidbody  = GetComponent<Rigidbody>();
-        player           = FindObjectOfType<PlayerMovement>();
-        target           = player.transform;
+        playerRigidbody = GetComponent<Rigidbody>();
+        player          = FindObjectOfType<PlayerMovement>();
+        playerHealth    = FindObjectOfType<Health>();
+        target          = player.transform;
     }
 
     // Update is called once per frame
@@ -68,30 +69,14 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("knockback is called");
     }
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Vector3 knockbackDirection = (collision.transform.position - transform.position).normalized;
-            StartCoroutine(KnockbackPlayer(knockbackDirection));
-        }
-    }*/
-    
-    /*private IEnumerator KnockbackPlayer(Vector3 knockbackDirection)
-    {
-        
-        playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
-        yield return new WaitForSeconds(knockbackDuration);
-
-        playerRigidbody.velocity = Vector3.zero;
-        HEJ JAG HETER DENNIS OCH TYCKER ATT NI GÖR ETT MYSIGT SPEL :D ^___^ MEN SLUTA SKJUTA PINGVINER FÖR I HELVETE!!!
-    }*/
+        //HEJ JAG HETER DENNIS OCH TYCKER ATT NI GÖR ETT MYSIGT SPEL :D ^___^ MEN SLUTA SKJUTA PINGVINER FÖR I HELVETE!!!
     
     IEnumerator Knockback()
     {
         attacking = true;
         Debug.Log(name + " is attacking " + target.name);
+
+        playerHealth.CurrentHealth -= meleeDamage;
         
         Vector3 knockbackVector = Vector3.Normalize(target.position - transform.position) * knockbackAmount;
         
