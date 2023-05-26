@@ -799,10 +799,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 1717731637514441909, guid: 3359677893790c049b50dc8aa4207da0, type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 6878013706252857393, guid: 9f18d2f02af16804e91ccaea02bcb40a, type: 3}
     - target: {fileID: 7352295166838354779, guid: 3359677893790c049b50dc8aa4207da0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -846,10 +842,6 @@ PrefabInstance:
     - target: {fileID: 7352295166838354779, guid: 3359677893790c049b50dc8aa4207da0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944411023373947698, guid: 3359677893790c049b50dc8aa4207da0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.77
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

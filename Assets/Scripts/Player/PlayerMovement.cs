@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static Essentials.Attributes;
 #endregion
 
 public class PlayerMovement : MonoBehaviour
@@ -37,19 +36,19 @@ public class PlayerMovement : MonoBehaviour
     Vector3 bannedGroundNormal;
 
     //Cooldowns
-    [Header("Cooldowns (ReadOnly)")]
-    [SerializeField, ReadOnly] bool canJump = true;
-    [SerializeField, ReadOnly] bool canDJump = true;
-    [SerializeField, ReadOnly] float wallBan;
-    [SerializeField, ReadOnly] float wrTimer;
-    [SerializeField, ReadOnly] float wallStickTimer;
+    [Header("Cooldowns ()")]
+    [SerializeField] bool canJump = true;
+    [SerializeField] bool canDJump = true;
+    [SerializeField] float wallBan;
+    [SerializeField] float wrTimer;
+    [SerializeField] float wallStickTimer;
 
     //States
-    [Header("States (ReadOnly)")]
-    [SerializeField, ReadOnly] bool running;
-    [SerializeField, ReadOnly] bool jump;
-    [SerializeField, ReadOnly] bool crouched;
-    [SerializeField, ReadOnly] bool isGrounded;
+    [Header("States ()")]
+    [SerializeField] bool running;
+    [SerializeField] bool jump;
+    [SerializeField] bool crouched;
+    [SerializeField] bool isGrounded;
 
      public bool IsGrounded
     {
