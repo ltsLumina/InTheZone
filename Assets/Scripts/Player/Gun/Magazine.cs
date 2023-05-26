@@ -3,6 +3,7 @@ using System;
 using Essentials;
 using TMPro;
 using UnityEngine;
+using static Essentials.Attributes;
 #endregion
 
 public class Magazine : MonoBehaviour
@@ -10,6 +11,7 @@ public class Magazine : MonoBehaviour
     [Header("Magazine Options")]
     [SerializeField] float maxMagazineSize = 18;
     [SerializeField] float currentMagCount;
+    [SerializeField, ReadOnly] bool canReload;
 
     // Cached References
     Gun gun;
@@ -32,8 +34,14 @@ public class Magazine : MonoBehaviour
             currentMagCount = value;
 
             // Check if magazine is empty, and automatically reload if it is.
-            if (currentMagCount <= 0) ReloadMagazine();
+            if (currentMagCount <= 0 && CanReload) ReloadMagazine();
         }
+    }
+
+    public bool CanReload
+    {
+        get => canReload;
+        set => canReload = value;
     }
 
     void Start()
@@ -41,15 +49,24 @@ public class Magazine : MonoBehaviour
         gun      = GetComponent<Gun>();
         ammoText = GetComponentInChildren<TextMeshPro>();
 
+        CanReload = true;
+
         UpdateAmmoText();
 
         Debug.Assert(currentMagCount < 0 == false,
                      "CurrentMagCount is less than 0! \n An error has occured somewhere!");
     }
 
+    void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.R) || !CanReload) return;
+        ReloadMagazine();
+    }
+
     public void ReloadMagazine()
     {
-        if (Reloading()) return;
+        Debug.Log("Reload");
+        if (Reloading() || !CanReload) return;
 
         gun.GunAnim.SetTrigger(DoReload);
 

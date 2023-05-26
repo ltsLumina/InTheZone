@@ -16,10 +16,7 @@ public class Health : MonoBehaviour, IDamageable
         get => maxHealth;
         set => maxHealth = value;
     }
-    private void Update()
-    {
-        Debug.Log(CurrentHealth);
-    }
+
     public int CurrentHealth
     {
         get => currentHealth;
