@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Jonatans Level.unity
-    guid: 8fb7adb3062f7954e8397dd0c53df890
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2b2f3a45626a73145bd9cd3fcc8ce3f5
+  - enabled: 1
+    path: Assets/Scenes/Zone.unity
+    guid: 6bbef4076c919e240886ad941de432f6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ec5cec1597a735b4fbf7acbe07215b17, type: 2}
