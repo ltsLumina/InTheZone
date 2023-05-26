@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7239062379707799055}
   - component: {fileID: 8536490095523868860}
   m_Layer: 0
-  m_Name: SpawnHeightCheck
+  m_Name: HeightChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0043d6af6da62a64ca080d6047fa9214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySpawnFrequency: 3
+  minEnemySpawnDistance: 15
+  maxEnemySpawnDistance: 60
+  playerVisionAngle: 50
+  initialEnemySpawnCount: 0
+  heightChecker: {fileID: 0}
+  heightCheckerSpawnHeight: 20
+  autoSpawnEnemies: 0
+  randomizeEnemyTypes: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   enemyTypes:
+  - {fileID: 4821897313610378541, guid: fc9a4f8f2c7fd12448632929e11dba06, type: 3}
+  - {fileID: 4821897313610378541, guid: fc9a4f8f2c7fd12448632929e11dba06, type: 3}
   - {fileID: 4821897313610378541, guid: fc9a4f8f2c7fd12448632929e11dba06, type: 3}
   - {fileID: 9208013306434409504, guid: 94b8f6a53a091c040af316c1667ec2d1, type: 3}

@@ -12,10 +12,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float minEnemySpawnDistance = 15f;
     [SerializeField] float maxEnemySpawnDistance = 60f;
     [SerializeField] float playerVisionAngle = 50f;
-    [SerializeField] int initialEnemySpawnCount;
-    [SerializeField] GameObject spawnHeightChecker;
-    [SerializeField] float heightCheckerHeight = 20f;
+    [SerializeField] int enemySpawnCount;
+    [SerializeField] GameObject heightChecker;
+    [SerializeField] float heightCheckerSpawnHeight = 20f;
     [SerializeField] bool autoSpawnEnemies;
+    [SerializeField] bool randomizeEnemyTypes;
+    [SerializeField] float enemyMultiplier = 1.25f;
+    [SerializeField] float enemyMultiplierTimer = 60f;
 
     // private variables
     Transform player;
@@ -27,17 +30,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        // generates the enemies and starts the spawner loop
-        GenerateEnemies(initialEnemySpawnCount);
-
-        if (autoSpawnEnemies)
-        {
-            StartCoroutine(EnemySpawningRoutine());
-        }
+        // generates the enemies and starts the spawner loop if it is enabled in the editor
+        GenerateEnemies(enemySpawnCount);
+        StartCoroutine(EnemySpawningRoutine());     
+        StartCoroutine(EnemyMultiplierRoutine());
     }
 
     public void GenerateEnemies(int enemyAmount)
     {
+        Debug.Log(enemyAmount);
         // calls the SpawnEnemy() an equal amount of times to the inputted enemyAmount value
         for (int i = 0; i < enemyAmount; i++)
         {
@@ -45,21 +46,29 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void SpawnEnemy()
+    private void SpawnEnemy()
     {
         Vector3 spawnDirection = Quaternion.AngleAxis(Random.Range(playerVisionAngle, 360 - playerVisionAngle), Vector3.down) * player.forward;
-        Vector3 spawnPosition = player.position + (spawnDirection * Random.Range(minEnemySpawnDistance, maxEnemySpawnDistance)) + new Vector3(0, heightCheckerHeight, 0);
+        Vector3 spawnPosition = player.position + (spawnDirection * Random.Range(minEnemySpawnDistance, maxEnemySpawnDistance)) + new Vector3(0, heightCheckerSpawnHeight, 0);
 
-        Instantiate(spawnHeightChecker, spawnPosition, Quaternion.identity);
+        Instantiate(heightChecker, spawnPosition, Quaternion.identity);
     }
 
     // loops the coroutine to keep enemies spawning continuously 
-    public IEnumerator EnemySpawningRoutine()
+    private IEnumerator EnemySpawningRoutine()
     {
         yield return new WaitForSeconds(enemySpawnFrequency);
 
-        SpawnEnemy();
+        GenerateEnemies(enemySpawnCount);
         StartCoroutine(EnemySpawningRoutine());
+    }
+
+    private IEnumerator EnemyMultiplierRoutine()
+    {
+        yield return new WaitForSeconds(enemyMultiplierTimer);
+
+        enemySpawnCount = (int)Mathf.Round(enemySpawnCount * enemyMultiplier);
+        StartCoroutine(EnemyMultiplierRoutine());
     }
 
     private void OnDrawGizmosSelected()
