@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupParticles: {fileID: 858521034521768107}
+  pickupSFX: {fileID: 8300000, guid: a372dc9d9bf28ac47b9951ef74681494, type: 3}
 --- !u!1001 &8575673782262276733
 PrefabInstance:
   m_ObjectHideFlags: 0
