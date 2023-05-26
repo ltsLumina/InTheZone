@@ -1,9 +1,7 @@
 ﻿#region
-using System;
 using Essentials;
 using TMPro;
 using UnityEngine;
-using static Essentials.Attributes;
 #endregion
 
 public class Magazine : MonoBehaviour
@@ -11,7 +9,7 @@ public class Magazine : MonoBehaviour
     [Header("Magazine Options")]
     [SerializeField] float maxMagazineSize = 18;
     [SerializeField] float currentMagCount;
-    [SerializeField, ReadOnly] bool canReload;
+    [SerializeField] bool canReload;
 
     // Cached References
     Gun gun;

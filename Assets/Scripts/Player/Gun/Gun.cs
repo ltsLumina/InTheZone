@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using Essentials;
 using UnityEngine;
-using static Essentials.Attributes;
 using static Interfaces;
 using Random = UnityEngine.Random;
 #endregion
@@ -21,7 +20,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform barrelExit;
 
     [Header("Read-Only Fields")]
-    [SerializeField, ReadOnly] bool canFire;
+    [SerializeField] bool canFire;
 
     // Cached References.
     Magazine magazine;

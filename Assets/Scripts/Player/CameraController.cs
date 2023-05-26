@@ -1,6 +1,5 @@
 #region
 using UnityEngine;
-using static Essentials.Attributes;
 #endregion
 
 public class CameraController : MonoBehaviour
@@ -9,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector2 sensitivity = new (1f, 1f);
     [SerializeField] float baseFov = 90f;
     [SerializeField] float maxFov = 140f;
-    [SerializeField, ReadOnly] float currentFOV;
+    [SerializeField] float currentFOV;
     [SerializeField] float wallRunTilt = 15f;
 
     [Header("Cached References")]
