@@ -146,6 +146,8 @@ public class Gun : MonoBehaviour
 
     public float ShootDelayUnscaled()
     {
+        shootDelayBeforeTimescale = shootDelay;
+
         // Adjust the shoot delay based on the time scale
         shootDelay = Time.timeScale < 1 ? shootDelay * shootDelayBeforeTimescale : shootDelayBeforeTimescale;
 
